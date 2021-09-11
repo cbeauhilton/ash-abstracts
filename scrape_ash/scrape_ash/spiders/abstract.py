@@ -8,6 +8,7 @@ from scrapy.loader import ItemLoader
 
 from ..detaconn import (deta_doi_to_local_disk, deta_get_doi,
                         deta_get_unscraped_doi, deta_put_abstract,
+                        deta_put_scraped_flag,
                         deta_unscraped_doi_to_local_disk, doi_from_local_disk)
 from ..items import ScrapeAshItem
 
@@ -28,6 +29,12 @@ def google_lat_lon(query: str):
     lon = res.split(",")[1]
 
     return lat, lon
+
+
+def chunks(lst, n):
+    """Yield successive n-sized chunks from lst."""
+    for i in range(0, len(lst), n):
+        yield lst[i : i + n]
 
 
 def remove_intr_by(string: str) -> str:
@@ -54,6 +61,11 @@ class AbstractSpider(scrapy.Spider):
 
         elif get_doi_from_disk:
             start_urls = doi_from_local_disk()
+
+            # Next part was to add flags, hopefully only have to do once
+            # chunked = list(chunks(start_urls, 25))
+            # for urls in chunked:
+            #     deta_put_scraped_flag(urls)
 
             # until I get the code for selecting unscraped URLs working...
             shuffle(start_urls)
@@ -92,6 +104,7 @@ class AbstractSpider(scrapy.Spider):
         lat, lon = google_lat_lon(first_author_affiliation)
         l.add_value("first_author_latitude", lat)
         l.add_value("first_author_longitude", lon)
+        l.add_value("is_scraped", "1")
 
         # print(dict(l.load_item()))
         deta_put_abstract(dict(l.load_item()))

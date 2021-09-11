@@ -35,3 +35,5 @@ class ScrapeAshItem(scrapy.Item):
     first_author_latitude = scrapy.Field(output_processor=Join())
 
     first_author_longitude = scrapy.Field(output_processor=Join())
+
+    is_scraped = scrapy.Field(output_processor=Join())

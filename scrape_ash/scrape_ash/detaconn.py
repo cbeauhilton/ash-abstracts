@@ -100,36 +100,31 @@ def doi_from_local_disk():
     return data
 
 
+def deta_put_scraped_flag(urls: List[str]):
+    db = deta.Base("abstracts")
+    data = []
+    for url in urls:
+        data.append({"key": quote_plus(url), "doi": url, "is_scraped": 0})
+    db.put_many(data)
+    print(data)
+
+
+@retry(
+    stop=stop_after_attempt(500),
+    after=dynamic_timeout(20),
+    before=dynamic_timeout(20),
+)
 def deta_get_unscraped_doi() -> List[str]:
-    # TODO: this is not working yet, filtering for missing fields is elusive
     db_name = "abstracts"
-    query = {"abstract_text?contains": " "}
+    query = {"is_scraped": 0}
     db = deta.Base(db_name)
 
     grab = db.fetch(query=query)  # the limit only applies to the first fetch
     response = grab.items
     while grab.last:
-        try:
-            grab = db.fetch(query=query, last=grab.last, limit=1000)
-            response += grab.items
-            # print(len(response))
-            pages = list(set([d["key"] for d in response if "abstract_text" in d]))
-            print(pages)
-        except:
-            print("failure")
-            pass
-
-    keys = list(set([d["key"] for d in response]))
-    for key in keys:
-        query = {"key?ne": "".join(key)}
-        print(query)
-        grab = db.fetch(query=query, limit=1000)
-        response = grab.items
-        while grab.last:
-            grab = db.fetch(query=query, last=grab.last, limit=1)
-            response += grab.items
-            print(len(response))
-            print(response["key"])
+        grab = db.fetch(query=query, last=grab.last, limit=1000)
+        response += grab.items
+        print(len(response))
 
     pages = list(set([d["doi"] for d in response if "doi" in d]))
     print(f"Total number of unscraped DOI: {len(pages)}")
