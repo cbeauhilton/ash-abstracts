@@ -32,6 +32,6 @@ class ScrapeAshItem(scrapy.Item):
 
     author_affiliations = scrapy.Field()
 
-    first_author_latitude = scrapy.Field()
+    first_author_latitude = scrapy.Field(output_processor=Join())
 
-    first_author_longitude = scrapy.Field()
+    first_author_longitude = scrapy.Field(output_processor=Join())

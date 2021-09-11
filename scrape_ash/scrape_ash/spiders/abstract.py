@@ -1,3 +1,4 @@
+import re
 from random import shuffle
 
 import scrapy
@@ -27,6 +28,11 @@ def google_lat_lon(query: str):
     lon = res.split(",")[1]
 
     return lat, lon
+
+
+def remove_intr_by(string: str) -> str:
+    clean_str = re.sub("\(Intr\..*?\)", "", string)
+    return clean_str
 
 
 class AbstractSpider(scrapy.Spider):
@@ -70,10 +76,20 @@ class AbstractSpider(scrapy.Spider):
         authors = response.css("div.info-card-author")
         author_affiliation_list = []
         for author in authors:
-            author_affiliation_list.append((author.css("div.aff::text").getall()))
+            authors_affils = author.css("div.aff::text").getall()
+            # clean out the "(Intr. by)" nonsense
+            authors_affils = [remove_intr_by(a) for a in authors_affils]
+            # if that resulted in an empty string, remove it
+            authors_affils = list(filter(None, authors_affils))
+            author_affiliation_list.append(authors_affils)
+
         l.add_value("author_affiliations", author_affiliation_list)
 
-        lat, lon = google_lat_lon(author_affiliation_list[0])
+        first_author_affiliation = author_affiliation_list[0]
+        # handle getting the first affiliation if author has multiple affiliations
+        if isinstance(first_author_affiliation, list):
+            first_author_affiliation = first_author_affiliation[0]
+        lat, lon = google_lat_lon(first_author_affiliation)
         l.add_value("first_author_latitude", lat)
         l.add_value("first_author_longitude", lon)
 
