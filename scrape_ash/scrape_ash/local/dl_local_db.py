@@ -88,6 +88,5 @@ def deta_get_scraped_doi() -> List[str]:
 
 abstracts = deta_get_scraped_doi()
 
-# db = Database("../data/base.db", recreate=True)
-
-# db["base"].insert_all(abstracts, alter=True, pk="key")
+db = Database("../data/base.db", recreate=True)
+db["base"].insert_all(abstracts, alter=True, pk="key")
