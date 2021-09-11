@@ -47,9 +47,29 @@ class AbstractSpider(scrapy.Spider):
     allowed_domains = ["ashpublications.org", "doi.org"]
 
     def start_requests(self):
-        clean_scrape = False
-        get_url_from_web = False
-        get_doi_from_disk = True
+        # pass in the following as -a arguments to scrapy crawl
+        # anything other than "False" will evaluate as True
+
+        clean_scrape = self.clean_scrape
+        get_url_from_web = self.get_url_from_web
+        get_doi_from_disk = self.get_doi_from_disk
+
+        if clean_scrape == "False":
+            clean_scrape = False
+        if get_url_from_web == "False":
+            get_url_from_web = False
+        if get_doi_from_disk == "False":
+            get_doi_from_disk = False
+
+        print(
+            f"""
+        clean_scrape: {clean_scrape} {type(clean_scrape)}, 
+
+        get_url_from_web: {get_url_from_web} {type(get_url_from_web)}, 
+
+        get_doi_from_disk: {get_doi_from_disk} {type(get_doi_from_disk)},
+                """
+        )
 
         if clean_scrape:
             start_urls = deta_get_doi()

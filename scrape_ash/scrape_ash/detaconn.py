@@ -1,18 +1,66 @@
 import json
 import os
+import socket
 from typing import List
 from urllib.parse import quote_plus
 
 from deta import Deta
 from scrapy.http import Response
 from tenacity import retry
+from tenacity.retry import retry_if_exception_type
 from tenacity.stop import stop_after_attempt
 
-from .timeout import dynamic_timeout
+# from .new_timeout import dynamic_timeout
 
 project_id = os.environ.get("DETA_ID_ASH")
 API_key = os.environ.get("DETA_TOKEN_ASH")
 deta = Deta(API_key)
+
+
+def monkeyblocking():
+    setblocking_func = socket.socket.setblocking
+
+    def wrapper(self, flag):
+        if flag:
+            # prohibit timeout reset
+            timeout = socket.getdefaulttimeout()
+            if timeout:
+                self.settimeout(timeout)
+            else:
+                setblocking_func(self, flag)
+        else:
+            setblocking_func(self, flag)
+
+    wrapper.__doc__ = setblocking_func.__doc__
+    wrapper.__name__ = setblocking_func.__name__
+    return wrapper
+
+
+timeout_secs = 10
+
+socket.setdefaulttimeout(timeout_secs)
+socket.socket.setblocking = monkeyblocking()
+
+sock = socket.socket()
+sock.settimeout(timeout_secs)
+sock.setblocking(True)  # keeps existing timeout
+
+
+def dynamic_timeout(
+    timeout_delta: float = 10.0,
+):
+
+    old_timeout = sock.gettimeout()
+
+    if sock.gettimeout():
+        if sock.gettimeout() < timeout_delta:
+            timeout_secs = timeout_delta
+
+    timeout_secs = old_timeout
+    timeout_secs += timeout_delta
+
+    sock.settimeout(timeout_secs)
+    print(f"Increasing timeout from {old_timeout} to {timeout_secs} seconds.")
 
 
 @retry(
@@ -110,25 +158,31 @@ def deta_put_scraped_flag(urls: List[str]):
 
 
 @retry(
-    stop=stop_after_attempt(500),
-    after=dynamic_timeout(20),
+    retry=retry_if_exception_type(socket.timeout),
     before=dynamic_timeout(20),
+    after=dynamic_timeout(20),
+    stop=stop_after_attempt(50),
 )
 def deta_get_unscraped_doi() -> List[str]:
     db_name = "abstracts"
     query = {"is_scraped": 0}
     db = deta.Base(db_name)
 
-    grab = db.fetch(query=query)  # the limit only applies to the first fetch
+    grab = db.fetch(query=query)
     response = grab.items
-    while grab.last:
+
+    # scraping more than 5k or so at a time results in hangs
+    i = 0
+    while grab.last and i < 4:
         grab = db.fetch(query=query, last=grab.last, limit=1000)
         response += grab.items
         print(len(response))
+        i += 1
 
     pages = list(set([d["doi"] for d in response if "doi" in d]))
-    print(f"Total number of unscraped DOI: {len(pages)}")
+    print(f"Current N to scrape: {len(pages)}")
 
+    # return abstracts
     return pages
 
 
