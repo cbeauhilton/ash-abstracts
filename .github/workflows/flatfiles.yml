@@ -1,4 +1,4 @@
-name: Build website for analyzing American Society of Hematology Abstracts
+name: Make flatfiles of American Society of Hematology Annual Meeting abstracts
 
 on:
   push:
