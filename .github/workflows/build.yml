@@ -70,7 +70,7 @@ jobs:
     - name: Soundness check
       run: |-
         cd scrape_ash/scrape_ash/
-        datasette data/base.db --get / | grep "abstract"
+        datasette data/base.db --get / | grep "base"
     - name: Save db to cbeauhilton/ash-db
       run: |-
         cd scrape_ash/scrape_ash/
