@@ -18,6 +18,16 @@ and provide a pipeline for maintaining an up-to-date database going forward.
 An additional hope is to make automated analysis available as a free service to other researchers,
 BYOD (Bring Your Own Data).
 
+## Contributing
+
+I am happy to accept contributions and criticism.
+
+[Email me](http://www.beauhilton.com/contact.html),
+or, better yet,
+open an issue by creating a [free GitHub account](https://github.com/join) 
+and clicking on the ["Issues" tab](https://github.com/cbeauhilton/ash-abstracts/issues) above.
+I keep a running conversation with myself and task list there as well, feel free to jump in.
+
 ## Acknowledgements
 
 Dr. Gómez-De León: Thank you for your generosity in sharing ideas and excitement!
