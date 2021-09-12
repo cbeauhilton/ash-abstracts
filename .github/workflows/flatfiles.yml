@@ -63,6 +63,6 @@ jobs:
         cd ash-db
         git config --global user.email "readme-bot@example.com"
         git config --global user.name "README-bot"       
-        git add flatfiles
+        git add .
         git commit --amend --no-edit
         git push --force
