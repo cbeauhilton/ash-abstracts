@@ -181,9 +181,7 @@ def deta_get_unscraped_doi(N: int = 1000) -> List[str]:
         i += 1
 
     pages = list(set([d["doi"] for d in response if "doi" in d]))
-    print(f"Current N to scrape: {len(pages)}")
 
-    # return abstracts
     return pages
 
 
