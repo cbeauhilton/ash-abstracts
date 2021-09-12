@@ -8,8 +8,6 @@ from tenacity import retry
 from tenacity.retry import retry_if_exception_type
 from tenacity.stop import stop_after_attempt
 
-# from ..new_timeout import dynamic_timeout
-
 project_id = os.environ.get("DETA_ID_ASH")
 API_key = os.environ.get("DETA_TOKEN_ASH")
 deta = Deta(API_key)
