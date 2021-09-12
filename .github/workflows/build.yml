@@ -59,6 +59,7 @@ jobs:
       if: |-
         contains(github.event.head_commit.message, 'REBUILD') || (github.event_name == 'schedule')
       run: |-
+        cd scrape-ash/scrape-ash/
         cd local/
         export DETA_TOKEN_ASH=${{ secrets.DETA_TOKEN_ASH }}
         export DETA_ID_ASH=${{ secrets.DETA_ID_ASH }}
@@ -71,6 +72,7 @@ jobs:
         datasette data/base.db --get / | grep "abstract"
     - name: Save db to cbeauhilton/ash-db
       run: |-
+        cd scrape-ash/scrape-ash/
         cd ash-db
         git config --global user.email "readme-bot@example.com"
         git config --global user.name "README-bot"       
