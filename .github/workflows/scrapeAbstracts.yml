@@ -1,11 +1,11 @@
-name: Scrape DOI from ASH website
+name: Scrape abstracts from ASH website
 
 on:
   push:
     branches:
     - main
   schedule:
-    - cron: '1 2 * * *'
+    - cron: '39 * * * *'
 
 jobs:
   build:
@@ -30,10 +30,15 @@ jobs:
         pip install -r scraping-requirements.txt
     - name: Scrape DOI
       if: |-
-        contains(github.event.head_commit.message, 'DOI') || (github.event_name == 'schedule')
+        contains(github.event.head_commit.message, 'ABSTRACT') || (github.event_name == 'schedule')
       run: |-
         export DETA_TOKEN_ASH=${{ secrets.DETA_TOKEN_ASH }}
         export DETA_ID_ASH=${{ secrets.DETA_ID_ASH }}
         cd scrape_ash/scrape_ash/
         cat gha_settings.py > settings.py
-        scrapy crawl dois
+        scrapy crawl abstracts \
+        -a get_url_from_web=True \
+        -a clean_scrape=False \
+        -a get_doi_from_disk=False \
+        -a unscraped_n_to_download=2 \
+        -a sample_size=100

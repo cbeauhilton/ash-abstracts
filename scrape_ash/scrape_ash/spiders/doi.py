@@ -4,8 +4,6 @@ from scrapy.http.request import Request
 from ..detaconn import (deta_get_start_url_page, deta_put_doi,
                         deta_put_start_url)
 
-# from scrapy.crawler import CrawlerProcess
-
 
 class DOISpider(scrapy.Spider):
     name = "dois"
@@ -49,8 +47,3 @@ class DOISpider(scrapy.Spider):
         if next_page is not None:
             next_page = response.urljoin(next_page)
             yield scrapy.Request(next_page, callback=self.parse)
-
-
-# process = CrawlerProcess()
-# process.crawl(DOISpider)
-# process.start()

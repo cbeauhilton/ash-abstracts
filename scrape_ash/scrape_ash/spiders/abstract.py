@@ -1,5 +1,5 @@
+import random
 import re
-from random import shuffle
 
 import scrapy
 from requests_html import HTMLSession
@@ -8,7 +8,6 @@ from scrapy.loader import ItemLoader
 
 from ..detaconn import (deta_doi_to_local_disk, deta_get_doi,
                         deta_get_unscraped_doi, deta_put_abstract,
-                        deta_put_scraped_flag,
                         deta_unscraped_doi_to_local_disk, doi_from_local_disk)
 from ..items import ScrapeAshItem
 
@@ -76,7 +75,7 @@ class AbstractSpider(scrapy.Spider):
             deta_doi_to_local_disk(start_urls)
 
         elif get_url_from_web:
-            start_urls = deta_get_unscraped_doi()
+            start_urls = deta_get_unscraped_doi(int(self.unscraped_n_to_download))
             deta_unscraped_doi_to_local_disk(start_urls)
 
         elif get_doi_from_disk:
@@ -87,8 +86,8 @@ class AbstractSpider(scrapy.Spider):
             # for urls in chunked:
             #     deta_put_scraped_flag(urls)
 
-            # until I get the code for selecting unscraped URLs working...
-            shuffle(start_urls)
+        start_urls = random.sample(start_urls, int(self.sample_size))
+        print(start_urls)
 
         for url in start_urls:
             yield Request(url, self.parse)

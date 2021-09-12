@@ -1,5 +1,4 @@
 import socket
-from typing import Callable
 
 from .monkeysocket import monkeyblocking
 

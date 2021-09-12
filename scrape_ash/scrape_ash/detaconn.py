@@ -163,7 +163,7 @@ def deta_put_scraped_flag(urls: List[str]):
     after=dynamic_timeout(20),
     stop=stop_after_attempt(50),
 )
-def deta_get_unscraped_doi() -> List[str]:
+def deta_get_unscraped_doi(N: int = 1000) -> List[str]:
     db_name = "abstracts"
     query = {"is_scraped": 0}
     db = deta.Base(db_name)
@@ -172,8 +172,9 @@ def deta_get_unscraped_doi() -> List[str]:
     response = grab.items
 
     # scraping more than 5k or so at a time results in hangs
+    iterations = (N - 1) / 1000
     i = 0
-    while grab.last and i < 4:
+    while grab.last and i < iterations:
         grab = db.fetch(query=query, last=grab.last, limit=1000)
         response += grab.items
         print(len(response))
