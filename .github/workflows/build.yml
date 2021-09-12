@@ -69,8 +69,7 @@ jobs:
         python upload_local_db.py
     - name: Soundness check
       run: |-
-        ls
-        cd ..
+        cd scrape_ash/scrape_ash/
         datasette data/base.db --get / | grep "abstract"
     - name: Save db to cbeauhilton/ash-db
       run: |-
