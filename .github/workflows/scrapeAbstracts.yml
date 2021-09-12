@@ -41,5 +41,5 @@ jobs:
         -a get_url_from_web=True \
         -a clean_scrape=False \
         -a get_doi_from_disk=False \
-        -a unscraped_n_to_download=2 \
+        -a unscraped_n_to_download=10 \
         -a sample_size=100
