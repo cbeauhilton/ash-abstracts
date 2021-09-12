@@ -17,6 +17,6 @@ BYOD (Bring Your Own Data).
 
 Dr. Gómez-De León: Thank you for your generosity in sharing ideas and excitement!
 
-I am also indebted to [Simon Willison](https://simonwillison.net/) for [inspiration](https://youtu.be/Lig2gxPEZPo), [examples](https://datasette.io/examples), and [beautiful](https://github.com/simonw/datasette) [software](https://github.com/simonw/sqlite-utils). 
+I am indebted to [Simon Willison](https://simonwillison.net/) for [inspiration](https://youtu.be/Lig2gxPEZPo), [examples](https://datasette.io/examples), and [beautiful](https://github.com/simonw/datasette) [software](https://github.com/simonw/sqlite-utils). 
 
 Much thanks also to [Deta](https://www.deta.sh/) for providing database hosting, and to [GitHub](https://github.com/) for automation and data storage. I use Deta's [Base](https://docs.deta.sh/docs/base/about/) service as a data exchange, [GitHub Actions](https://github.com/features/actions) for automation, and [this GitHub repository ](https://github.com/cbeauhilton/ash-db) for more durable data storage.
