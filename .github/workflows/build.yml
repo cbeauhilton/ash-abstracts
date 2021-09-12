@@ -90,7 +90,7 @@ jobs:
           --setting default_page_size 300 \
           --token $NOW_TOKEN \
           --project ash-abstracts \
-          --static ../../static:static \
+          --static static:../../static\
           --install datasette-json-html \
           --install datasette-cluster-map \
           --public
