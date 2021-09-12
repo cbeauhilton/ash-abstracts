@@ -11,9 +11,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - name: sleep
-      run: |
-        sleep 5m
     - name: Check out repo
       uses: actions/checkout@v2
     - name: Checkout ash-db
