@@ -31,7 +31,7 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-pip-
     - uses: actions/cache@v2
-      name: Configure npm caching
+      name: Configure node caching
       with:
         path: ~/.npm
         key: ${{ runner.os }}-node-
@@ -52,15 +52,13 @@ jobs:
     - name: Download previous database unless REBUILD in commit message
       if: |-
         !contains(github.event.head_commit.message, 'REBUILD')
-      run: curl --fail -o data/base.db https://raw.githubusercontent.com/cbeauhilton/ash-db/main/hometown.db
+      run: curl --fail -o data/base.db https://raw.githubusercontent.com/cbeauhilton/ash-db/main/base.db
       continue-on-error: true
     - name: Build database
       if: |-
         contains(github.event.head_commit.message, 'REBUILD') || (github.event_name == 'schedule')
       run: |-
-        ls
         cd scrape_ash/scrape_ash/
-        ls
         cd local/
         export DETA_TOKEN_ASH=${{ secrets.DETA_TOKEN_ASH }}
         export DETA_ID_ASH=${{ secrets.DETA_ID_ASH }}
@@ -88,6 +86,7 @@ jobs:
       env:
         NOW_TOKEN: ${{ secrets.NOW_TOKEN }}
       run: |-
+        cd scrape_ash/scrape_ash/
         datasette publish vercel data/base.db \
           --setting default_page_size 300 \
           --token $NOW_TOKEN \
