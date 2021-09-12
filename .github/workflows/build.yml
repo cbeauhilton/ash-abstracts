@@ -5,12 +5,15 @@ on:
     branches:
     - main
   schedule:
-    - cron: '33 2 */3 * *'
+    - cron: '11 2 */3 * *'
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+    - name: sleep
+      run: |
+        sleep 5m
     - name: Check out repo
       uses: actions/checkout@v2
     - name: Checkout ash-db
@@ -71,8 +74,8 @@ jobs:
       run: |-
         cd scrape_ash/scrape_ash/
         cd ash-db
-        git config --global user.email "readme-bot@example.com"
-        git config --global user.name "README-bot"       
+        git config --global user.email "bot@example.com"
+        git config --global user.name "bot"       
         cp ../data/base.db .
         git add *.db
         git commit --amend --no-edit

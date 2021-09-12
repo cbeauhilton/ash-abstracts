@@ -5,7 +5,7 @@ on:
     branches:
     - main
   schedule:
-    - cron: '44 2 * * *'
+    - cron: '55 2 * * *'
 
 jobs:
   build:
@@ -41,14 +41,12 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install sqlite-utils dateparser
-    - name: Set up dirs
-      run: |
     - name: Download previous database
       run: |
         cd scrape_ash/scrape_ash/
         mkdir -p data
         curl --fail -o data/base.db https://raw.githubusercontent.com/cbeauhilton/ash-db/main/base.db
-      continue-on-error: true
+      continue-on-error: false
     - name: Make flatfiles
       run: |-
         cd scrape_ash/scrape_ash/

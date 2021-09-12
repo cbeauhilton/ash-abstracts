@@ -1,4 +1,5 @@
 datasette
+dateparser
 datasette-cluster-map
 datasette-leaflet
 deta
