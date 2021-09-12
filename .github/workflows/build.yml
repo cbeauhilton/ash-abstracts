@@ -1,4 +1,4 @@
-name: Build website for learning about the current VUMC medicine residents
+name: Build website for analyzing American Society of Hematology Abstracts
 
 on:
   push:
@@ -60,6 +60,8 @@ jobs:
         contains(github.event.head_commit.message, 'REBUILD') || (github.event_name == 'schedule')
       run: |-
         cd local/
+        export DETA_TOKEN_ASH=${{ secrets.DETA_TOKEN_ASH }}
+        export DETA_ID_ASH=${{ secrets.DETA_ID_ASH }}
         python dl_local_db.py &&
         python upload_local_db.py
     - name: Soundness check
