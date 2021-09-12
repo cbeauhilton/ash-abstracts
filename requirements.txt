@@ -1,128 +1,75 @@
-aiofiles==0.7.0
-anyio==3.3.0
-appdirs @ file:///home/beau/.cache/pypoetry/artifacts/47/cf/4f/4ef02fb715aa36daeebad18cc5570126159c659c41c7b5ec46a7387d9b/appdirs-1.4.4-py2.py3-none-any.whl
-asgi-csrf==0.9
-asgiref==3.4.1
-ash-abs==0.1.0
-attrs @ file:///home/beau/.cache/pypoetry/artifacts/6f/a9/ee/569c37f69a8c365ee41d2340aeac0214ee8c0086b8d8db43a21545204b/attrs-21.2.0-py2.py3-none-any.whl
-Automat @ file:///home/beau/.cache/pypoetry/artifacts/b8/e5/0e/e86ac85851dbf0701b64dc7a0c07c823d0194d7e31a24f1ba60bed622d/Automat-20.2.0-py2.py3-none-any.whl
-backports.entry-points-selectable==1.1.0
-beautifulsoup4 @ file:///home/beau/.cache/pypoetry/artifacts/eb/47/47/287c1b8a386f9437d562f9221ae959756bc5bbfcd541c38c17968dfe8a/beautifulsoup4-4.9.3-py3-none-any.whl
-black @ file:///home/beau/.cache/pypoetry/artifacts/be/e6/df/a55a8e51a7d76f4c756c94edd651cafa9564482707ce2762c2907f2f87/black-21.7b0-py3-none-any.whl
-bs4 @ file:///home/beau/.cache/pypoetry/artifacts/31/81/b7/a039b0e011fa7663d81788ef0aef586453c50f018bbfc3b0c389a60ecf/bs4-0.0.1.tar.gz
-bsddb3 @ file:///home/beau/.cache/pypoetry/artifacts/de/c5/79/9ba5bbb16fabecb01f3ad474c6bbdcb9dfaee21a5e3912ee7c1f785ac7/bsddb3-6.2.9.tar.gz
-CacheControl==0.12.6
-cachy==0.3.0
-certifi==2021.5.30
-cffi==1.14.6
-charset-normalizer==2.0.3
-cleo==0.8.1
-click @ file:///home/beau/.cache/pypoetry/artifacts/ae/32/83/e159324c1bd58177322f4e45f598d500fe22544bff20f53f55cf749da8/click-8.0.1-py3-none-any.whl
-click-default-group==1.2.2
-clikit==0.6.2
-constantly @ file:///home/beau/.cache/pypoetry/artifacts/b1/88/48/9251c310b06614794944e121657b60bba5de1686d8c2dfeb79f6f80ad0/constantly-15.1.0-py2.py3-none-any.whl
-crashtest==0.3.1
-cryptography==3.4.7
-cssselect @ file:///home/beau/.cache/pypoetry/artifacts/4c/2a/b2/5de4d8089cc07c2ed1b3321b512d5dde8a37e561af056f21a64e690c10/cssselect-1.1.0-py2.py3-none-any.whl
-datasette==0.58.1
-datasette-cluster-map==0.17.1
-datasette-leaflet==0.2.2
-deta==1.0.0
-distlib==0.3.2
-fake-useragent @ file:///home/beau/.cache/pypoetry/artifacts/72/ee/40/962e98112328cbfef013623346543891b1d917ddc0bd9212c3ec3350ce/fake-useragent-0.1.11.tar.gz
-filelock==3.0.12
-h11==0.12.0
-h2 @ file:///home/beau/.cache/pypoetry/artifacts/c3/8a/71/a988717fae9dcea1fceb6ea9136c163db9b7e69e80942d3a63beba1fa8/h2-3.2.0-py2.py3-none-any.whl
-hpack @ file:///home/beau/.cache/pypoetry/artifacts/64/14/18/f2ac85bc5aa1af9f1a681fa8b1231749d1fbf1cbd57f977a9da26f7a85/hpack-3.0.0-py2.py3-none-any.whl
-html5lib==1.1
-httpcore==0.13.6
-httpx==0.18.2
-hupper==1.10.3
-hyperframe @ file:///home/beau/.cache/pypoetry/artifacts/a1/bf/aa/f80a51d1a516b07eb052d292d94ee5623f96e66f092915cba25b82e1b1/hyperframe-5.2.0-py2.py3-none-any.whl
-hyperlink @ file:///home/beau/.cache/pypoetry/artifacts/ac/c9/85/b172f5d08e937f31bc0feffe4e2ff08bef15ff1e4d382616b9f7b174b0/hyperlink-21.0.0-py2.py3-none-any.whl
-idna==3.2
-incremental @ file:///home/beau/.cache/pypoetry/artifacts/03/0f/d8/1f9c21de086b17b28e0ed5914f384759067c88a524742b94e72eb07020/incremental-21.3.0-py2.py3-none-any.whl
-isort==5.9.3
-itemadapter @ file:///home/beau/.cache/pypoetry/artifacts/64/d2/2a/380d61744f59e58af3427a9b9a11b798a79abf3d280539273fb964f073/itemadapter-0.3.0-py3-none-any.whl
-itemloaders @ file:///home/beau/.cache/pypoetry/artifacts/1e/98/3e/aaccb591db4fedd3a8ee7169c55765ded6cf549c5c15745cc96788fda1/itemloaders-1.0.4-py3-none-any.whl
-itsdangerous==2.0.1
-janus==0.6.1
-jeepney==0.7.0
-Jinja2==3.0.1
-jmespath @ file:///home/beau/.cache/pypoetry/artifacts/2c/f0/52/b0ba93d941bd49c8719dee7ca27d2096bf96e17948667388c3ee2ac8f8/jmespath-0.10.0-py2.py3-none-any.whl
-jsonlines @ file:///home/beau/.cache/pypoetry/artifacts/33/7d/a5/2cdffe1b2c408ff140b7b806a1e357f5c77e018e4c6dfaa32afb141ef1/jsonlines-2.0.0-py3-none-any.whl
-keyring==21.8.0
-lockfile==0.12.2
-lxml @ file:///home/beau/.cache/pypoetry/artifacts/22/b6/df/404ec1fd9c34f71c3f09c1ae47b6dada296cbec9a676226de0416702b7/lxml-4.6.3-cp39-cp39-manylinux2014_x86_64.whl
-MarkupSafe==2.0.1
-mergedeep==1.3.4
-more-itertools @ file:///home/beau/.cache/pypoetry/artifacts/47/d4/7d/526affa62eb0c76eec19004cbbf18cc4e55f51c665e92b88bb2ed25752/more_itertools-8.8.0-py3-none-any.whl
-msgpack==1.0.2
-mypy-extensions @ file:///home/beau/.cache/pypoetry/artifacts/92/45/bf/1807ce854ff668d92602207a37bfa9316def2a3f257bd03c4c5be4bc9b/mypy_extensions-0.4.3-py2.py3-none-any.whl
-numpy @ file:///home/beau/.cache/pypoetry/artifacts/09/41/2d/f87d4931dbeb5c1c9969044e87c1fb20a7729758872458fa5ea668b6d7/numpy-1.21.1-cp39-cp39-manylinux_2_12_x86_64.manylinux2010_x86_64.whl
-packaging @ file:///home/beau/.cache/pypoetry/artifacts/f9/4f/09/c91a145b26102e014fd6e33bd8c7b87306c8e1d4a771158f34dd13210e/packaging-21.0-py3-none-any.whl
-pandas @ file:///home/beau/.cache/pypoetry/artifacts/fc/5a/0a/869f450478486e196deaf641bf72f99222d58f912d1a3026f3ffb86b3c/pandas-1.3.1-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
-parse @ file:///home/beau/.cache/pypoetry/artifacts/1a/03/56/4cb6153a241f54401f8d8bb75cd03996f47407827b0ab3850fe7e12c22/parse-1.19.0.tar.gz
-parsel @ file:///home/beau/.cache/pypoetry/artifacts/7f/b4/e9/28309d407156cf0d452d119d5990510c784069fc499d2d327f3e4ffaa2/parsel-1.6.0-py2.py3-none-any.whl
-pastel==0.2.1
-pathspec @ file:///home/beau/.cache/pypoetry/artifacts/0a/67/21/620031f7f2938bad77b057a68a4c2a334542a7402a3214ed48690caf8c/pathspec-0.9.0-py2.py3-none-any.whl
-pexpect==4.8.0
-Pint==0.17
-pkginfo==1.7.1
-platformdirs==2.0.2
-pluggy @ file:///home/beau/.cache/pypoetry/artifacts/29/58/fc/ed8b7451d3ef91a6465024f5656141da996e7aafd4d41a1659629a75e7/pluggy-0.13.1-py2.py3-none-any.whl
-poetry-core==1.0.3
-priority @ file:///home/beau/.cache/pypoetry/artifacts/c9/eb/02/9acd62048e8790ebb4b44263bf8f61a46cb4e61d5edd3594d39ae11020/priority-1.3.0-py2.py3-none-any.whl
-Protego @ file:///home/beau/.cache/pypoetry/artifacts/25/63/5d/d9818bc2714304bcf2b4935e4b9f928481f07a9c58460ac59554799e53/Protego-0.1.16.tar.gz
-ptyprocess==0.7.0
-py @ file:///home/beau/.cache/pypoetry/artifacts/60/79/0b/c48bd9c2a989aa8b1eb7a67cd02b053c10734f2e4e5665f7995f09999c/py-1.10.0-py2.py3-none-any.whl
-pyasn1 @ file:///home/beau/.cache/pypoetry/artifacts/7b/3a/54/42ce43b579bda01b9d79022fb733811594441e7a32e9f9a5a98f672bdc/pyasn1-0.4.8-py2.py3-none-any.whl
-pyasn1-modules @ file:///home/beau/.cache/pypoetry/artifacts/dd/b8/4f/b56433e0354274a31074995e01b8671751e9f0ed0001f5254e5b03a54f/pyasn1_modules-0.2.8-py2.py3-none-any.whl
-pycparser==2.20
-PyDispatcher @ file:///home/beau/.cache/pypoetry/artifacts/5d/99/ba/0bb7de84ef612e0065d2ef6724b4dba5502fdb5e534374424487351d26/PyDispatcher-2.0.5.tar.gz
-pyee @ file:///home/beau/.cache/pypoetry/artifacts/d6/33/fa/f927bfe99a83f212172581072725910a838952b5f3089d2982ba527846/pyee-8.1.0-py2.py3-none-any.whl
-pylev==1.4.0
-pyOpenSSL @ file:///home/beau/.cache/pypoetry/artifacts/27/2a/6f/de8129dc1f8ba5d04f604e929a7f055c4ca7c08ceec8bf801182df8774/pyOpenSSL-20.0.1-py2.py3-none-any.whl
-pyparsing==2.4.7
-pyppeteer @ file:///home/beau/.cache/pypoetry/artifacts/76/13/d6/3cc6cdd4788415e5305ed21349f029742fe18a992cfd60ece0dbb94e65/pyppeteer-0.2.5-py3-none-any.whl
-pyquery @ file:///home/beau/.cache/pypoetry/artifacts/eb/b0/b5/7098eb150d6fc17db13b9c882c6e5190c1f770d35a4d293111f6568353/pyquery-1.4.3-py3-none-any.whl
-PySocks==1.7.1
-pytest @ file:///home/beau/.cache/pypoetry/artifacts/e4/88/dd/3dbff42e3c4462dc3d027f5024025571166cb35edee215ce93852a968c/pytest-5.4.3-py3-none-any.whl
-python-baseconv==1.2.2
-python-dateutil @ file:///home/beau/.cache/pypoetry/artifacts/53/f8/2a/7d63ce15df7386e9536e83413453f8aa845b47fb425f05c4ca2fb231c3/python_dateutil-2.8.2-py2.py3-none-any.whl
-python-multipart==0.0.5
-pytz @ file:///home/beau/.cache/pypoetry/artifacts/b0/a7/8d/54de3ab4d1ff29abbbca1e9ccbaefdc2a1b290138311b84f73bee16de1/pytz-2021.1-py2.py3-none-any.whl
-PyYAML==5.4.1
-queuelib @ file:///home/beau/.cache/pypoetry/artifacts/97/0d/e8/7989d42b1789b5e60bd0dc13f9497795002c7b732448ed1ab5950b689d/queuelib-1.6.1-py2.py3-none-any.whl
-regex @ file:///home/beau/.cache/pypoetry/artifacts/f5/e5/4e/f58af17893d3e0309fc3ae1837f99d35f2c0a01006d8666eb4aac5028e/regex-2021.7.6-cp39-cp39-manylinux2014_x86_64.whl
-requests==2.26.0
-requests-html @ file:///home/beau/.cache/pypoetry/artifacts/bb/38/b9/4fb297df9eae30fdede56295eea314056c872150834fb6a54808abb1f4/requests_html-0.10.0-py3-none-any.whl
-requests-toolbelt==0.9.1
-rfc3986==1.5.0
-Scrapy @ file:///home/beau/.cache/pypoetry/artifacts/fb/2e/1b/61cf4d00ae4bd254f818ac088dda13a72de28ffc85897ce8095a325f7c/Scrapy-2.5.0-py2.py3-none-any.whl
-scrapy-crawl-once @ file:///home/beau/.cache/pypoetry/artifacts/ea/d7/9c/96bca9482b81a20e7b155ec1a546f08a2dffe73f43c08462950878f87d/scrapy_crawl_once-0.1.1-py2.py3-none-any.whl
-scrapy-deltafetch @ file:///home/beau/.cache/pypoetry/artifacts/a8/f9/fc/b6ce1582b9bb67b358aa1ccef781a3a09b756f238c0c9dce7446b8acd8/scrapy_deltafetch-1.2.1-py2.py3-none-any.whl
-SecretStorage==3.3.1
-service-identity @ file:///home/beau/.cache/pypoetry/artifacts/b1/52/73/b4dbc1db0eb8a4a2e9faf4231a0f8e54b2478b020bfe5c18fdcca0cbd7/service_identity-21.1.0-py2.py3-none-any.whl
-shellingham==1.4.0
-six==1.16.0
-sniffio==1.2.0
-soupsieve @ file:///home/beau/.cache/pypoetry/artifacts/20/16/55/4a9893b172bb2a7815f46f6a947ff3506dd241ea679377ffdc0b2c811e/soupsieve-2.2.1-py3-none-any.whl
-sqlite-fts4==1.0.1
-sqlite-utils==3.13
-sqlitedict @ file:///home/beau/.cache/pypoetry/artifacts/30/da/52/503d8c476c0ad677cb6bcf1714381aa53b2500752bacc499aa0a5f4283/sqlitedict-1.7.0.tar.gz
-stem==1.8.0
-tabulate==0.8.9
-tenacity==8.0.1
-tomli @ file:///home/beau/.cache/pypoetry/artifacts/cb/bc/70/f9ab408a04c53990cf4fb692ab7448d21f7c46cc3b8638cb77814ffc0c/tomli-1.1.0-py3-none-any.whl
-tomlkit==0.7.2
-tqdm @ file:///home/beau/.cache/pypoetry/artifacts/1a/46/38/2897fecc5f3ff99d118d7dd77d749365e163113a712337b2b28837bedd/tqdm-4.61.2-py2.py3-none-any.whl
-Twisted @ file:///home/beau/.cache/pypoetry/artifacts/cc/3b/2b/b4192be52547cd6d0e76e1e41e5c7056c938cad39787425afd7ca85d5e/Twisted-21.2.0-py3-none-any.whl
-urllib3==1.26.6
-uvicorn==0.14.0
-virtualenv==20.6.0
-w3lib @ file:///home/beau/.cache/pypoetry/artifacts/8e/7e/d2/66fbb7cb8fda5baaa66ec08d3925c06bec5d29ec743e97402e9acec131/w3lib-1.22.0-py2.py3-none-any.whl
-wcwidth @ file:///home/beau/.cache/pypoetry/artifacts/7d/f4/60/0737157bb9711fec72c70dff523aa54491eef317e0d586cf5388ff0908/wcwidth-0.2.5-py2.py3-none-any.whl
-webencodings==0.5.1
-websockets @ file:///home/beau/.cache/pypoetry/artifacts/f5/4b/eb/5cfd043e0dbfe90c838bc1570b070131b9cc1f0ebf4a45a2c3e0fe9eb9/websockets-8.1.tar.gz
-zope.interface @ file:///home/beau/.cache/pypoetry/artifacts/8a/b0/8d/603b42b0b2683d588a86d7ec5b1cbb314c88223b01efb5c4bea16c77a3/zope.interface-5.4.0-cp39-cp39-manylinux2010_x86_64.whl
+datasette
+datasette-cluster-map
+datasette-leaflet
+deta
+html5lib
+httpcore
+httpx
+hupper
+itemadapter 
+itemloaders 
+itsdangerous
+janus
+jeepney
+Jinja2
+jmespath 
+jsonlines 
+keyring
+lockfile
+lxml 
+MarkupSafe
+mergedeep
+more-itertools 
+msgpack
+mypy-extensions 
+numpy 
+packaging 
+pandas 
+parse 
+parsel 
+pastel
+pathspec 
+pexpect
+Pint
+pkginfo
+platformdirs
+pluggy 
+poetry-core
+priority 
+Protego 
+ptyprocess
+py 
+pyasn1 
+pyasn1-modules 
+pycparser
+PyDispatcher 
+pyee 
+pylev
+pyOpenSSL 
+pyparsing
+pyppeteer 
+pyquery 
+PySocks
+pytest 
+pytz 
+PyYAML
+queuelib 
+regex 
+requests
+requests-html 
+Scrapy 
+service-identity 
+shellingham
+six
+sniffio
+soupsieve 
+sqlite-utils
+stem
+tabulate
+tenacity
+urllib3
+uvicorn
+w3lib 
+wcwidth 
+webencodings
+websockets 
