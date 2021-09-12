@@ -59,8 +59,7 @@ jobs:
         echo " " > .gitignore
         cd scrape_ash/scrape_ash/
         mkdir -p ash-db/flatfiles
-        mkdir -p ash-db/flatfiles/json
-        cp -r data/json ash-db/flatfiles/json
+        cp -r data/json ash-db/flatfiles
         cd ash-db
         git config --global user.email "readme-bot@example.com"
         git config --global user.name "README-bot"       
