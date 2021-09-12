@@ -17,7 +17,7 @@ jobs:
       uses: actions/checkout@v2
       with:
         repository: cbeauhilton/ash-db
-        path: scrape-ash/scrape-ash/ash-db
+        path: scrape_ash/scrape_ash/ash-db
         token: ${{ secrets.PERSONAL_ACCESS_TOKEN_FOR_PUSH }}
     - name: Set up Python
       uses: actions/setup-python@v1
@@ -47,7 +47,7 @@ jobs:
       run: sudo npm install -g puppeteer-cli --unsafe-perm=true
     - name: Set up dirs
       run: |
-        cd scrape-ash/scrape-ash/
+        cd scrape_ash/scrape_ash/
         mkdir -p data
         mkdir -p logs
     - name: Download previous database unless REBUILD in commit message
@@ -60,7 +60,7 @@ jobs:
         contains(github.event.head_commit.message, 'REBUILD') || (github.event_name == 'schedule')
       run: |-
         ls
-        cd scrape-ash/scrape-ash/
+        cd scrape_ash/scrape_ash/
         ls
         cd local/
         export DETA_TOKEN_ASH=${{ secrets.DETA_TOKEN_ASH }}
@@ -74,7 +74,7 @@ jobs:
         datasette data/base.db --get / | grep "abstract"
     - name: Save db to cbeauhilton/ash-db
       run: |-
-        cd scrape-ash/scrape-ash/
+        cd scrape_ash/scrape_ash/
         cd ash-db
         git config --global user.email "readme-bot@example.com"
         git config --global user.name "README-bot"       
