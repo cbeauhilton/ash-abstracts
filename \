@@ -1,0 +1,20 @@
+from pathlib import Path
+
+import dateparser
+from sqlite_utils import Database
+
+db = Database("../data/base.db")
+date_col_name = "article_date"
+years = []
+
+for row in db["base"].rows:
+    date = str(row[date_col_name])
+    dt = dateparser.parse(date)
+    dates.append(dt.year)
+
+years = list(set(years))
+for year in years:
+    Path(f"../data/json/{year}").mkdir(parents=True, exist_ok=True)
+    for row in db["base"].rows_where(f"{date_col_name} = ?", [f"{year}"]):
+        print(row)
+        exit()

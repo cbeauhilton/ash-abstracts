@@ -1,0 +1,65 @@
+name: Build website for analyzing American Society of Hematology Abstracts
+
+on:
+  push:
+    branches:
+    - main
+  schedule:
+    - cron: '44 2 */3 * *'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out repo
+      uses: actions/checkout@v2
+    - name: Checkout ash-db
+      uses: actions/checkout@v2
+      with:
+        repository: cbeauhilton/ash-db
+        path: scrape_ash/scrape_ash/ash-db
+        token: ${{ secrets.PERSONAL_ACCESS_TOKEN_FOR_PUSH }}
+    - name: Set up Python
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.9
+    - uses: actions/cache@v2
+      name: Configure pip caching
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+    - uses: actions/cache@v2
+      name: Configure node caching
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-node-
+        restore-keys: |
+          ${{ runner.os }}-node-
+    - name: Install Python dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install sqlite-utils pendulumJKk
+    - name: Set up dirs
+      run: |
+        cd scrape_ash/scrape_ash/
+        mkdir -p data
+    - name: Download previous database
+      run: curl --fail -o scrape_ash/scrape_ash/data/base.db https://raw.githubusercontent.com/cbeauhilton/ash-db/main/base.db
+      continue-on-error: true
+    - name: Make flatfiles
+      run: |-
+        cd scrape_ash/scrape_ash/
+        cd local/
+        python mk_flatfiles.py
+    - name: Save flatfiles to cbeauhilton/ash-db
+      run: |-
+        echo " " > .gitignore
+        cd scrape_ash/scrape_ash/
+        cd ash-db
+        git config --global user.email "readme-bot@example.com"
+        git config --global user.name "README-bot"       
+        git add ../data/json
+        git commit --amend --no-edit
+        git push --force
