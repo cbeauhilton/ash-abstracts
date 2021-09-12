@@ -91,4 +91,4 @@ for abstract in abstracts:
     abstract["longitude"] = abstract.pop("first_author_longitude")
 
 db = Database("../data/base.db", recreate=True)
-db["base"].insert_all(abstracts, alter=True, pk="key")
+db["abstracts_base"].insert_all(abstracts, alter=True, pk="key")
