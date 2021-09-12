@@ -10,3 +10,5 @@ Dr. Gómez-De León and his team manually examined 4871 abstracts from the 2018 
 The main unique contribution of the present work is to include 
 all abstracts from all meetings whose abstracts are available on the ASH website,
 and provide a pipeline for maintaining an up-to-date database going forward.
+
+Much thanks to [deta](https://www.deta.sh/) for providing the database hosting.
