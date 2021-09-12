@@ -4,9 +4,9 @@ This repository contains code for scraping the ASH annual meeting abstracts,
 from the first date they were online (2004) to the present, and an initial analysis of this data.
 
 An interactive map of some of the data is available [here](https://ash-abstracts.vercel.app/base/abstracts_base). 
-Since there are so many examples the map may not load quickly, 
-consider instead exploring a facet of the data, 
-such as [this one](https://ash-abstracts.vercel.app/base/abstracts_base?_facet_array=topics&topics__arraycontains=leukemia) for abstracts tagged with "leukemia" (scroll down to see the map). See below for a screenshot.
+Since there are so many examples the map may not load quickly.
+Consider instead exploring a facet of the data, 
+such as [this one](https://ash-abstracts.vercel.app/base/abstracts_base?_facet_array=topics&topics__arraycontains=leukemia) for abstracts tagged with "leukemia" (scroll down that page to see the map). Also see below for a screenshot.
 
 It was inspired by an abstract describing the initial [work](https://doi.org/10.1182/blood-2019-130053) by Andrés Gómez-De León, MD *et al*. Their work was [published](https://pubmed.ncbi.nlm.nih.gov/?term=33909458) in manuscript form in JCO Global Oncology in 2021.
 Dr. Gómez-De León and his team manually examined 4871 abstracts from the 2018 Annual Meeting. 
