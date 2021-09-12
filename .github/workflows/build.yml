@@ -30,6 +30,11 @@ jobs:
         key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
         restore-keys: |
           ${{ runner.os }}-pip-
+        run: |
+          echo "home"
+          ls ~/
+          echo "here"
+          ls
     - uses: actions/cache@v2
       name: Configure node caching
       with:
