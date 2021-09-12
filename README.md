@@ -4,7 +4,7 @@ This repository contains code for scraping the ASH annual meeting abstracts,
 from the first date they were online (2004) to the present, and an initial analysis of this data.
 
 An interactive map of some of the data is available [here](https://ash-abstracts.vercel.app/base/abstracts_base). 
-Since there are so many examples the map may not load quickly.
+Since there are a large number of examples the map may not load quickly.
 Consider instead exploring a facet of the data, 
 such as [this one](https://ash-abstracts.vercel.app/base/abstracts_base?_facet_array=topics&topics__arraycontains=leukemia) for abstracts tagged with "leukemia" (scroll down that page to see the map). Also see below for a screenshot.
 
