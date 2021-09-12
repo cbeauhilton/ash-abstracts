@@ -90,7 +90,7 @@ abstracts = deta_get_scraped_doi()
 
 for abstract in abstracts:
     abstract["latitude"] = abstract.pop("first_author_latitude")
-    abstract["latitude"] = abstract.pop("first_author_longitude")
+    abstract["longitude"] = abstract.pop("first_author_longitude")
 
 db = Database("../data/base.db", recreate=True)
 db["base"].insert_all(abstracts, alter=True, pk="key")
