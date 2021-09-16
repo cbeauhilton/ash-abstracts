@@ -86,7 +86,7 @@ class AbstractSpider(scrapy.Spider):
             # for urls in chunked:
             #     deta_put_scraped_flag(urls)
 
-        if int(self.sample_size) > len(start_urls):
+        if len(start_urls) > int(self.sample_size):
             start_urls = random.sample(start_urls, int(self.sample_size))
         print(start_urls)
 
