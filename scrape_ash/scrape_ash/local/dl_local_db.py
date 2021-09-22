@@ -92,3 +92,4 @@ for abstract in abstracts:
 
 db = Database("../data/base.db", recreate=True)
 db["abstracts_base"].insert_all(abstracts, alter=True, pk="key")
+db["abstracts_base"].enable_fts(['abstract_text', 'article_title', 'author_affiliations', 'author_names', 'topics'], tokenize="porter", create_triggers=True)
