@@ -21,4 +21,4 @@ for year in years:
     for row in db.query(query):
         file = f"{path}/{row['key']}.json"
         with open(file, "w") as f:
-            json.dump(row, f)
+            json.dump(row, f, indent=4)
