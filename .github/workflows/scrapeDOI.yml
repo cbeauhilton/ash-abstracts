@@ -13,6 +13,12 @@ jobs:
     steps:
     - name: Check out repo
       uses: actions/checkout@v2
+    - name: Checkout ash-db
+      uses: actions/checkout@v2
+      with:
+        repository: cbeauhilton/ash-db
+        path: scrape_ash/scrape_ash/ash-db
+        token: ${{ secrets.PERSONAL_ACCESS_TOKEN_FOR_PUSH }}
     - name: Set up Python
       uses: actions/setup-python@v1
       with:
@@ -41,6 +47,7 @@ jobs:
       if: |-
         contains(github.event.head_commit.message, 'CLEAN_DOI')
       run: |-
+        pip install sqlite-utils
         export DETA_TOKEN_ASH=${{ secrets.DETA_TOKEN_ASH }}
         export DETA_ID_ASH=${{ secrets.DETA_ID_ASH }}
         cd scrape_ash/scrape_ash/
@@ -48,3 +55,13 @@ jobs:
         mkdir data/doi_json
         cat gha_settings.py > settings.py
         scrapy crawl dois -a clean_scrape=True
+        mkdir -p ash-db/doi_json
+        cp -r data/doi_json ash-db/doi_json
+        cd ash-db
+        echo " " > .gitignore
+        git config --global user.name "Automated"       
+        git config --global user.email "actions@users.noreply.github.com"
+        git add -A
+        timestamp=$(date -u)
+        git commit -m "Latest data: ${timestamp}" || exit 0
+        git push

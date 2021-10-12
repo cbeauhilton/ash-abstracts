@@ -12,6 +12,24 @@ from pathlib import Path
 
 proj_root = closest_scrapy_cfg()
 
+def mk_json(doi_link: str, response: Response):
+        # make a json file as well
+        d = {}
+        d["doi"] = doi_link
+        d["start_url"] = response.request.url
+        d["is_scraped"] = 0
+
+        url_path = urlparse(doi_link).path
+        fname = quote_plus(url_path)
+
+        p = f"{proj_root}/scrape_ash/data/doi_json"
+        Path(p).mkdir(parents=True, exist_ok=True)
+
+        with open(f"{p}/{fname}") as f:
+            json.dump(d, f)
+
+        return d
+
 class DOISpider(scrapy.Spider):
     name = "dois"
     allowed_domains = ["ashpublications.org", "doi.org"]
@@ -51,20 +69,10 @@ class DOISpider(scrapy.Spider):
             doi_link = link.get()
             deta_put_doi(doi_link)
 
-            # make a json file as well
-            d = {}
-            d["doi"] = doi_link
-            d["start_url"] = response.request.url
-            d["is_scraped"] = 0
+            # make json as well
+            d = mk_json(doi_link=doi_link, response=response)
+            print(d)
 
-            url_path = urlparse(doi_link).path
-            fname = quote_plus(url_path)
-
-            p = f"{proj_root}/scrape_ash/data/doi_json"
-            Path(p).mkdir(parents=True, exist_ok=True)
-
-            with open(f"{p}/{fname}") as f:
-                json.dump(d, f)
 
         # save the url of the current page to a deta instance,
         # will be queried on subsequent runs to avoid re-scraping

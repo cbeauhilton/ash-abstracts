@@ -8,6 +8,7 @@ ROBOTSTXT_OBEY = False
 COOKIES_ENABLED = False
 DOWNLOAD_DELAY = 3
 CONCURRENT_REQUESTS = 2  # don't get kicked out! Default 16.
+CLOSESPIDER_ITEMCOUNT = 10 # limit number of scraped items per crawl
 
 ITEM_PIPELINES = {
     "scrape_ash.pipelines.AbstractPipeline": 300,
