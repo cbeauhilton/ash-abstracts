@@ -1,6 +1,7 @@
 import json
 import scrapy
 from scrapy.http.request import Request
+from scrapy.http import Response
 from scrapy.utils.conf import closest_scrapy_cfg
 
 from ..detaconn import (deta_get_start_url_page, deta_put_doi,
