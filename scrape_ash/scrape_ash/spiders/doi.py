@@ -57,8 +57,7 @@ class DOISpider(scrapy.Spider):
             url_path = urlparse(doi_link).path
             fname = quote_plus(url_path)
 
-            p = "../data/doi_json"
-            Path(p).mkdir(parents=True, exist_ok=True)
+            p = "data/doi_json"
 
             with open(f"{p}/{fname}") as f:
                 json.dump(d, f)
