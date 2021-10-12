@@ -11,7 +11,6 @@ from urllib.parse import quote_plus
 from urllib.parse import urlparse
 from pathlib import Path
 
-proj_root = closest_scrapy_cfg()
 
 def mk_json(doi_link: str, response: Response):
         # make a json file as well
@@ -23,7 +22,7 @@ def mk_json(doi_link: str, response: Response):
         url_path = urlparse(doi_link).path
         fname = quote_plus(url_path)
 
-        p = f"{proj_root}/scrape_ash/data/doi_json"
+        p = f"scrape_ash/data/doi_json"
         Path(p).mkdir(parents=True, exist_ok=True)
 
         with open(f"{p}/{fname}") as f:

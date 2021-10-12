@@ -2,3 +2,4 @@ scrapy
 deta
 tenacity
 requests-html
+sqlite-utils
