@@ -1,9 +1,13 @@
+import json
 import scrapy
 from scrapy.http.request import Request
 
 from ..detaconn import (deta_get_start_url_page, deta_put_doi,
                         deta_put_start_url)
 
+from urllib.parse import quote_plus
+from urllib.parse import urlparse
+from pathlib import Path
 
 class DOISpider(scrapy.Spider):
     name = "dois"
@@ -16,6 +20,14 @@ class DOISpider(scrapy.Spider):
             start_url_page = deta_get_start_url_page()
         except Exception as e:
             print(e)
+            start_url_page = 1
+
+        clean_scrape = self.clean_scrape
+
+        if clean_scrape == "False":
+            clean_scrape = False
+
+        if clean_scrape:
             start_url_page = 1
 
         # the last page last scraped might not be full,
@@ -35,6 +47,21 @@ class DOISpider(scrapy.Spider):
         for link in response.css("div.citation-label a::attr(href)"):
             doi_link = link.get()
             deta_put_doi(doi_link)
+
+            # make a json file as well
+            d = {}
+            d["doi"] = doi_link
+            d["start_url"] = response.request.url
+            d["is_scraped"] = 0
+
+            url_path = urlparse(doi_link).path
+            fname = quote_plus(url_path)
+
+            p = "../data/doi_json"
+            Path(p).mkdir(parents=True, exist_ok=True)
+
+            with open(f"{p}/{fname}") as f:
+                json.dump(d, f)
 
         # save the url of the current page to a deta instance,
         # will be queried on subsequent runs to avoid re-scraping

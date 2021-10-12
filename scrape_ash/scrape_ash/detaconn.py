@@ -102,13 +102,13 @@ def deta_get_start_url_page() -> int:
 def deta_put_start_url(response: Response):
     db = deta.Base("start_urls")
     start_url = response.request.url
-    # DOIs are already unique, make the URLs into safe strings to create keys
     data = {"key": f"{quote_plus(start_url)}", "start_url": f"{start_url}"}
     db.put(data)
 
 
 def deta_put_doi(doi: str):
     db = deta.Base("abstracts")
+    # DOIs are already unique, make the URLs into safe strings to create keys
     data = {"key": f"{quote_plus(doi)}", "doi": doi}
     db.put(data)
 
