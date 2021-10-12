@@ -1,6 +1,7 @@
 import json
 import scrapy
 from scrapy.http.request import Request
+from scrapy.utils.conf import closest_scrapy_cfg
 
 from ..detaconn import (deta_get_start_url_page, deta_put_doi,
                         deta_put_start_url)
@@ -8,6 +9,8 @@ from ..detaconn import (deta_get_start_url_page, deta_put_doi,
 from urllib.parse import quote_plus
 from urllib.parse import urlparse
 from pathlib import Path
+
+proj_root = closest_scrapy_cfg()
 
 class DOISpider(scrapy.Spider):
     name = "dois"
@@ -57,7 +60,8 @@ class DOISpider(scrapy.Spider):
             url_path = urlparse(doi_link).path
             fname = quote_plus(url_path)
 
-            p = "data/doi_json"
+            p = f"{proj_root}/scrape_ash/data/doi_json"
+            Path(p).mkdir(parents=True, exist_ok=True)
 
             with open(f"{p}/{fname}") as f:
                 json.dump(d, f)
