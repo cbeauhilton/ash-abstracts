@@ -36,10 +36,10 @@ jobs:
         export DETA_ID_ASH=${{ secrets.DETA_ID_ASH }}
         cd scrape_ash/scrape_ash/
         cat gha_settings.py > settings.py
-        scrapy crawl dois -a clean_scrape False
+        scrapy crawl dois -a clean_scrape=False
     - name: Scrape DOI from beginning
       if: |-
-        contains(github.event.head_commit.message, 'DOI') || (github.event_name == 'schedule')
+        contains(github.event.head_commit.message, 'REBUILD DOI') || (github.event_name == 'schedule')
       run: |-
         export DETA_TOKEN_ASH=${{ secrets.DETA_TOKEN_ASH }}
         export DETA_ID_ASH=${{ secrets.DETA_ID_ASH }}
