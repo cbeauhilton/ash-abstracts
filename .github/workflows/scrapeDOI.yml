@@ -59,12 +59,12 @@ jobs:
         timestamp=$(date -u)
         git commit -m "Latest data: ${timestamp}" || exit 0
         git push
-    - name: Scrape DOI
-      if: |-
-        contains(github.event.head_commit.message, 'DOI') || (github.event_name == 'schedule')
-      run: |-
-        export DETA_TOKEN_ASH=${{ secrets.DETA_TOKEN_ASH }}
-        export DETA_ID_ASH=${{ secrets.DETA_ID_ASH }}
-        cd scrape_ash/scrape_ash/
-        cat gha_settings.py > settings.py
-        scrapy crawl dois -a clean_scrape=False
+    # - name: Scrape DOI
+    #   if: |-
+    #     contains(github.event.head_commit.message, 'DOI') || (github.event_name == 'schedule')
+    #   run: |-
+    #     export DETA_TOKEN_ASH=${{ secrets.DETA_TOKEN_ASH }}
+    #     export DETA_ID_ASH=${{ secrets.DETA_ID_ASH }}
+    #     cd scrape_ash/scrape_ash/
+    #     cat gha_settings.py > settings.py
+    #     scrapy crawl dois -a clean_scrape=False
