@@ -45,16 +45,12 @@ jobs:
         mkdir -p data
         mkdir -p data/doi_json
         mkdir -p ash-db/doi_json
-        echo "ls: "
-        ls
-        echo "ls data: "
-        ls data
         cat gha_settings.py > settings.py
         scrapy crawl dois -a clean_scrape=True
         cp -r data/doi_json ash-db/doi_json
         cd ash-db
-        git pull
-        git config --global user.name "Automated"       
+        git pull --allow-unrelated-histories
+        git config --global user.name "DOI bot"       
         git config --global user.email "actions@users.noreply.github.com"
         git add -A
         timestamp=$(date -u)
