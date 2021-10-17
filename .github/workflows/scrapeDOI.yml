@@ -51,6 +51,9 @@ jobs:
         cd ash-db
         git config --global user.name "DOI bot"       
         git config --global user.email "actions@users.noreply.github.com"
+        git config --global pull.rebase true
+        git config --global fetch.prune true
+        git config --global diff.colorMoved zebra
         git pull --unshallow --allow-unrelated-histories
         git add -A
         timestamp=$(date -u)
