@@ -1,3 +1,4 @@
+import os
 import json
 import scrapy
 from scrapy.http.request import Request
@@ -21,6 +22,7 @@ def mk_json(doi_link: str, response: Response):
 
         url_path = urlparse(doi_link).path
         fname = quote_plus(url_path)
+        print(os.getcwd())
 
         p = f"scrape_ash/data/doi_json"
         Path(p).mkdir(parents=True, exist_ok=True)
