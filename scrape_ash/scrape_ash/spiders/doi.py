@@ -27,7 +27,7 @@ def mk_json(doi_link: str, response: Response):
         print("ls:", os.listdir())
         print("***"*10)
 
-        p = f"scrape_ash/data/doi_json"
+        p = f"data/doi_json"
         Path(p).mkdir(parents=True, exist_ok=True)
 
         with open(f"{p}/{fname}") as f:
