@@ -22,15 +22,15 @@ def mk_json(doi_link: str, response: Response):
 
         url_path = urlparse(doi_link).path
         fname = quote_plus(url_path)
-        print("***"*10)
-        print("Current working directory", os.getcwd())
-        print("ls:", os.listdir())
-        print("***"*10)
+        # print("***"*10)
+        # print("Current working directory", os.getcwd())
+        # print("ls:", os.listdir())
+        # print("***"*10)
 
         p = f"data/doi_json"
         Path(p).mkdir(parents=True, exist_ok=True)
 
-        with open(f"{p}/{fname}") as f:
+        with open(f"{p}/{fname}", "w") as f:
             json.dump(d, f)
 
         return d

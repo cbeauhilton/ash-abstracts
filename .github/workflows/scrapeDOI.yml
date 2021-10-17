@@ -42,11 +42,13 @@ jobs:
         export DETA_ID_ASH=${{ secrets.DETA_ID_ASH }}
         echo " " > .gitignore
         cd scrape_ash/scrape_ash/
-        mkdir data
-        mkdir data/doi_json
+        mkdir -p data
+        mkdir -p data/doi_json
         mkdir -p ash-db/doi_json
         echo "ls: "
         ls
+        echo "ls data: "
+        ls data
         cat gha_settings.py > settings.py
         scrapy crawl dois -a clean_scrape=True
         cp -r data/doi_json ash-db/doi_json
