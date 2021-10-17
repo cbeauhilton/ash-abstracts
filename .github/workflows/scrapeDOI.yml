@@ -34,15 +34,6 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r scraping-requirements.txt
-    - name: Scrape DOI
-      if: |-
-        contains(github.event.head_commit.message, 'DOI') || (github.event_name == 'schedule')
-      run: |-
-        export DETA_TOKEN_ASH=${{ secrets.DETA_TOKEN_ASH }}
-        export DETA_ID_ASH=${{ secrets.DETA_ID_ASH }}
-        cd scrape_ash/scrape_ash/
-        cat gha_settings.py > settings.py
-        scrapy crawl dois -a clean_scrape=False
     - name: Scrape DOI from beginning
       if: |-
         contains(github.event.head_commit.message, 'CLEAN_DOI')
@@ -54,6 +45,8 @@ jobs:
         mkdir data
         mkdir data/doi_json
         mkdir -p ash-db/doi_json
+        echo "ls: "
+        ls
         cat gha_settings.py > settings.py
         scrapy crawl dois -a clean_scrape=True
         cp -r data/doi_json ash-db/doi_json
@@ -65,3 +58,12 @@ jobs:
         timestamp=$(date -u)
         git commit -m "Latest data: ${timestamp}" || exit 0
         git push
+    - name: Scrape DOI
+      if: |-
+        contains(github.event.head_commit.message, 'DOI') || (github.event_name == 'schedule')
+      run: |-
+        export DETA_TOKEN_ASH=${{ secrets.DETA_TOKEN_ASH }}
+        export DETA_ID_ASH=${{ secrets.DETA_ID_ASH }}
+        cd scrape_ash/scrape_ash/
+        cat gha_settings.py > settings.py
+        scrapy crawl dois -a clean_scrape=False
