@@ -51,7 +51,7 @@ jobs:
         cd ash-db
         git config --global user.name "DOI bot"       
         git config --global user.email "actions@users.noreply.github.com"
-        git pull --allow-unrelated-histories
+        git pull --unshallow --allow-unrelated-histories
         git add -A
         timestamp=$(date -u)
         git commit -m "Latest data: ${timestamp}" || exit 0
