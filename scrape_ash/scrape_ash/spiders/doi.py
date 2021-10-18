@@ -31,7 +31,7 @@ def mk_json(doi_link: str, response: Response, doi_json_path: str):
         fname = quote_plus(url_path)
 
         with open(f"{p}/{fname}.json", "w") as f:
-            json.dump(d, f)
+            json.dump(d, f, indent=4)
 
         return d
 
