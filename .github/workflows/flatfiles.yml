@@ -45,7 +45,7 @@ jobs:
       run: |
         cd scrape_ash/scrape_ash/
         mkdir -p data
-        curl --fail -o data/base.db https://raw.githubusercontent.com/cbeauhilton/ash-db/main/base.db
+        curl --fail -o data/base.db https://raw.githubusercontent.com/cbeauhilton/ash-db/main/dbs/base.db
       continue-on-error: false
     - name: Make flatfiles
       run: |-
@@ -59,9 +59,9 @@ jobs:
         mkdir -p ash-db/flatfiles
         cp -r data/json ash-db/flatfiles
         cd ash-db
-        git config --global user.name "Automated"       
+        git config --global user.name "flatfiles bot"       
         git config --global user.email "actions@users.noreply.github.com"
         git add -A
         timestamp=$(date -u)
-        git commit -m "Latest data: ${timestamp}" || exit 0
+        git commit -m "flatfiles: ${timestamp}" || exit 0
         git push
