@@ -47,7 +47,7 @@ jobs:
         mkdir -p ash-db/doi_json
         cat gha_settings.py > settings.py
         scrapy crawl dois -a clean_scrape=True
-        cp -a data/doi_json/. ash-db/doi_json/
+        cp data/doi_json/*.json ash-db/doi_json/
         cd ash-db
         git config --global user.name "DOI bot"       
         git config --global user.email "actions@users.noreply.github.com"

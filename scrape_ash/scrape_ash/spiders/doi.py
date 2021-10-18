@@ -3,7 +3,6 @@ import json
 import scrapy
 from scrapy.http.request import Request
 from scrapy.http import Response
-from scrapy.utils.conf import closest_scrapy_cfg
 
 from ..detaconn import (deta_get_start_url_page, deta_put_doi,
                         deta_put_start_url)
@@ -14,7 +13,6 @@ from pathlib import Path
 
 
 def mk_json(doi_link: str, response: Response):
-        # make a json file as well
         d = {}
         d["doi"] = doi_link
         d["start_url"] = response.request.url
@@ -22,15 +20,11 @@ def mk_json(doi_link: str, response: Response):
 
         url_path = urlparse(doi_link).path
         fname = quote_plus(url_path)
-        # print("***"*10)
-        # print("Current working directory", os.getcwd())
-        # print("ls:", os.listdir())
-        # print("***"*10)
 
         p = f"data/doi_json"
         Path(p).mkdir(parents=True, exist_ok=True)
 
-        with open(f"{p}/{fname}", "w") as f:
+        with open(f"{p}/{fname}.json", "w") as f:
             json.dump(d, f)
 
         return d
