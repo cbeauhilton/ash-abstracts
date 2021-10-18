@@ -72,7 +72,7 @@ jobs:
         cd scrape_ash/scrape_ash/
         cd ash-db
         git config --global user.email "bot@example.com"
-        git config --global user.name "bot"       
+        git config --global user.name "db bot"       
         cp ../data/base.db .
         git add *.db
         git commit --amend --no-edit
