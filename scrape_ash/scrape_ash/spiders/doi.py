@@ -17,6 +17,7 @@ def mk_json(doi_link: str, response: Response, doi_json_path: str):
         d = {}
         d["doi"] = doi_link
         d["start_url"] = response.request.url
+        d["start_url_page_num"] = d["start_url"].split("page=", 1)[1]
         d["is_scraped"] = 0
 
         p = doi_json_path
@@ -62,7 +63,7 @@ class DOISpider(scrapy.Spider):
             # start_url_page = deta_get_start_url_page()
             start_url_page = get_start_url_page(doi_json_path)
         except Exception as e:
-            print(e)
+            print(f"Could not get start_url_page, exception: {e}")
             start_url_page = 1
 
         clean_scrape = self.clean_scrape
