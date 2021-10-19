@@ -57,6 +57,10 @@ jobs:
         timestamp=$(date -u)
         git commit -m "Latest data: ${timestamp}" || exit 0
         git push
+        for file in doi_json/*.json; do sqlite-utils insert abstract.db abstracts $file --pk=doi --ignore; done
+        git add *.db
+        git commit --amend --no-edit
+        git push --force
     # - name: Scrape DOI
     #   if: |-
     #     contains(github.event.head_commit.message, 'DOI') || (github.event_name == 'schedule')
