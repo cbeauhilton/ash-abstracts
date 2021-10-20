@@ -11,13 +11,19 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - name: Check out repo
+    - name: Check out this repo
       uses: actions/checkout@v2
     - name: Checkout ash-db
       uses: actions/checkout@v2
       with:
         repository: cbeauhilton/ash-db
         path: scrape_ash/scrape_ash/ash-db
+        token: ${{ secrets.PERSONAL_ACCESS_TOKEN_FOR_PUSH }}
+    - name: Checkout ash-files
+      uses: actions/checkout@v2
+      with:
+        repository: cbeauhilton/ash-files
+        path: scrape_ash/scrape_ash/ash-files
         token: ${{ secrets.PERSONAL_ACCESS_TOKEN_FOR_PUSH }}
     - name: Set up Python
       uses: actions/setup-python@v1
@@ -38,15 +44,15 @@ jobs:
       if: |-
         contains(github.event.head_commit.message, 'CLEAN_DOI')
       run: |-
-        export DETA_TOKEN_ASH=${{ secrets.DETA_TOKEN_ASH }}
-        export DETA_ID_ASH=${{ secrets.DETA_ID_ASH }}
+        # export DETA_TOKEN_ASH=${{ secrets.DETA_TOKEN_ASH }}
+        # export DETA_ID_ASH=${{ secrets.DETA_ID_ASH }}
         echo " " > .gitignore
         cd scrape_ash/scrape_ash/
-        mkdir -p ash-db/doi_json
+        mkdir -p ash-files/doi_json
         cat gha_settings.py > settings.py
         scrapy crawl dois -a clean_scrape=True
-        cp data/doi_json/*.json ash-db/doi_json/
-        cd ash-db
+        cp data/doi_json/*.json ash-files/doi_json/
+        cd ash-files
         git config --global user.name "DOI bot"       
         git config --global user.email "actions@users.noreply.github.com"
         git config --global pull.rebase true
@@ -57,17 +63,38 @@ jobs:
         timestamp=$(date -u)
         git commit -m "Latest data: ${timestamp}" || exit 0
         git push
-        for file in doi_json/*.json; do sqlite-utils upsert abstract.db abstracts $file --pk=doi --alter; done
+        for file in doi_json/*.json; do sqlite-utils upsert ../ash-db/abstracts.db abstracts $file --pk=doi --alter; done
+        cd ../ash-db
         git add *.db
         git commit --amend --no-edit
         git push --force
         sqlite-utils abstract.db "select * from abstracts"
-    # - name: Scrape DOI
-    #   if: |-
-    #     contains(github.event.head_commit.message, 'DOI') || (github.event_name == 'schedule')
-    #   run: |-
-    #     export DETA_TOKEN_ASH=${{ secrets.DETA_TOKEN_ASH }}
-    #     export DETA_ID_ASH=${{ secrets.DETA_ID_ASH }}
-    #     cd scrape_ash/scrape_ash/
-    #     cat gha_settings.py > settings.py
-    #     scrapy crawl dois -a clean_scrape=False
+    - name: Scrape DOI
+      if: |-
+        contains(github.event.head_commit.message, 'DOI') || (github.event_name == 'schedule')
+      run: |-
+        # export DETA_TOKEN_ASH=${{ secrets.DETA_TOKEN_ASH }}
+        # export DETA_ID_ASH=${{ secrets.DETA_ID_ASH }}
+        echo " " > .gitignore
+        cd scrape_ash/scrape_ash/
+        mkdir -p ash-files/doi_json
+        cat gha_settings.py > settings.py
+        scrapy crawl dois -a clean_scrape=False
+        cp data/doi_json/*.json ash-files/doi_json/
+        cd ash-files
+        git config --global user.name "DOI bot"       
+        git config --global user.email "actions@users.noreply.github.com"
+        git config --global pull.rebase true
+        git config --global fetch.prune true
+        git config --global diff.colorMoved zebra
+        git pull --unshallow --allow-unrelated-histories
+        git add -A
+        timestamp=$(date -u)
+        git commit -m "Latest data: ${timestamp}" || exit 0
+        git push
+        for file in doi_json/*.json; do sqlite-utils upsert ../ash-db/abstracts.db abstracts $file --pk=doi --alter; done
+        cd ../ash-db
+        git add *.db
+        git commit --amend --no-edit
+        git push --force
+        sqlite-utils abstract.db "select * from abstracts"
