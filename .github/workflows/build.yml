@@ -13,12 +13,6 @@ jobs:
     steps:
     - name: Check out repo
       uses: actions/checkout@v2
-    - name: Checkout ash-db
-      uses: actions/checkout@v2
-      with:
-        repository: cbeauhilton/ash-db
-        path: scrape_ash/scrape_ash/ash-db
-        token: ${{ secrets.PERSONAL_ACCESS_TOKEN_FOR_PUSH }}
     - name: Set up Python
       uses: actions/setup-python@v1
       with:
@@ -44,40 +38,11 @@ jobs:
         datasette install datasette-publish-vercel
     - name: Install npm dependencies
       run: sudo npm install -g puppeteer-cli --unsafe-perm=true
-    - name: Set up dirs
-      run: |
-        cd scrape_ash/scrape_ash/
-        mkdir -p data
-    - name: Download previous database unless REBUILD in commit message
-      if: |-
-        !contains(github.event.head_commit.message, 'REBUILD')
-      run: curl --fail -o scrape_ash/scrape_ash/data/base.db https://raw.githubusercontent.com/cbeauhilton/ash-db/main/dbs/base.db
-      continue-on-error: true
-    - name: Build database on REBUILD or if scheduled action
-      if: |-
-        contains(github.event.head_commit.message, 'REBUILD') || (github.event_name == 'schedule')
-      run: |-
-        cd scrape_ash/scrape_ash/
-        cd local/
-        export DETA_TOKEN_ASH=${{ secrets.DETA_TOKEN_ASH }}
-        export DETA_ID_ASH=${{ secrets.DETA_ID_ASH }}
-        python dl_local_db.py &&
-        python upload_local_db.py
+    - name: Download database
+      run: curl --fail -o abstracts.db https://raw.githubusercontent.com/cbeauhilton/ash-db/main/abstracts.db
     - name: Soundness check
       run: |-
-        cd scrape_ash/scrape_ash/
-        datasette data/base.db --get / | grep "base"
-    - name: Save db to cbeauhilton/ash-db
-      run: |-
-        cd scrape_ash/scrape_ash/
-        cd ash-db
-        mkdir dbs
-        git config --global user.email "db_bot@example.com"
-        git config --global user.name "db bot"       
-        cp ../data/base.db dbs/base.db
-        git add *.db
-        git commit --amend --no-edit
-        git push --force
+        datasette abstracts.db --get / | grep "abstracts"
     - name: Setup Node.js
       uses: actions/setup-node@v1
       with:
@@ -86,12 +51,11 @@ jobs:
       env:
         NOW_TOKEN: ${{ secrets.NOW_TOKEN }}
       run: |-
-        cd scrape_ash/scrape_ash/
-        datasette publish vercel data/base.db \
+        datasette publish vercel abstracts.db \
           --setting default_page_size 300 \
           --token $NOW_TOKEN \
           --project ash-abstracts \
-          --static static:../../static\
+          --static static:static\
           --install datasette-json-html \
           --install datasette-cluster-map \
           --public
