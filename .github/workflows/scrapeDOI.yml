@@ -64,7 +64,7 @@ jobs:
         git add *.db
         git commit --amend --no-edit
         git push --force
-        sqlite-utils abstract.db "select * from abstracts"
+        sqlite-utils abstracts.db "select * from abstracts"
     - name: Scrape DOI
       if: |-
         github.event_name == 'schedule'
@@ -89,4 +89,4 @@ jobs:
         git add *.db
         git commit --amend --no-edit
         git push --force
-        sqlite-utils abstract.db "select * from abstracts"
+        sqlite-utils abstracts.db "select * from abstracts"
