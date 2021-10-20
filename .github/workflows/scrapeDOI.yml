@@ -55,10 +55,6 @@ jobs:
         cd ash-files
         git config --global user.name "DOI bot"       
         git config --global user.email "actions@users.noreply.github.com"
-        git config --global pull.rebase true
-        git config --global fetch.prune true
-        git config --global diff.colorMoved zebra
-        git pull --unshallow --allow-unrelated-histories
         git add -A
         timestamp=$(date -u)
         git commit -m "Latest data: ${timestamp}" || exit 0
@@ -71,7 +67,7 @@ jobs:
         sqlite-utils abstract.db "select * from abstracts"
     - name: Scrape DOI
       if: |-
-        contains(github.event.head_commit.message, 'DOI') || (github.event_name == 'schedule')
+        github.event_name == 'schedule'
       run: |-
         export DETA_TOKEN_ASH=${{ secrets.DETA_TOKEN_ASH }}
         export DETA_ID_ASH=${{ secrets.DETA_ID_ASH }}
@@ -84,10 +80,6 @@ jobs:
         cd ash-files
         git config --global user.name "DOI bot"       
         git config --global user.email "actions@users.noreply.github.com"
-        git config --global pull.rebase true
-        git config --global fetch.prune true
-        git config --global diff.colorMoved zebra
-        git pull --unshallow --allow-unrelated-histories
         git add -A
         timestamp=$(date -u)
         git commit -m "Latest data: ${timestamp}" || exit 0

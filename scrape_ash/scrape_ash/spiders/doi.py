@@ -85,16 +85,10 @@ class DOISpider(scrapy.Spider):
 
     def parse(self, response):
         for link in response.css("div.citation-label a::attr(href)"):
+
             doi_link = link.get()
-            # deta_put_doi(doi_link)
 
-            d = mk_json(doi_link=doi_link, response=response, doi_json_path=doi_json_path)
-            print(d)
-
-
-        # save the url of the current page to a deta instance,
-        # will be queried on subsequent runs to avoid re-scraping
-        # deta_put_start_url(response)
+            mk_json(doi_link=doi_link, response=response, doi_json_path=doi_json_path)
 
         next_page = (
             "search-results?" + response.css("a.sr-nav-next::attr(data-url)").get()
