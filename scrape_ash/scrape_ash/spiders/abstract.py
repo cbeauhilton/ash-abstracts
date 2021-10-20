@@ -6,9 +6,6 @@ from requests_html import HTMLSession
 from scrapy.http.request import Request
 from scrapy.loader import ItemLoader
 
-from ..detaconn import (deta_doi_to_local_disk, deta_get_doi,
-                        deta_get_unscraped_doi, deta_put_abstract,
-                        deta_unscraped_doi_to_local_disk, doi_from_local_disk)
 from ..items import ScrapeAshItem
 
 session = HTMLSession()
@@ -45,7 +42,12 @@ class AbstractSpider(scrapy.Spider):
     name = "abstracts"
     allowed_domains = ["ashpublications.org", "doi.org"]
 
+
     def start_requests(self):
+        from ..detaconn import (deta_doi_to_local_disk, deta_get_doi,
+                                deta_get_unscraped_doi, deta_put_abstract,
+                                deta_unscraped_doi_to_local_disk, doi_from_local_disk)
+
         # pass in the following as -a arguments to scrapy crawl
         # anything other than "False" will evaluate as True
 
@@ -94,6 +96,8 @@ class AbstractSpider(scrapy.Spider):
             yield Request(url, self.parse)
 
     def parse(self, response):
+        from ..detaconn import deta_put_abstract
+
         l = ItemLoader(item=ScrapeAshItem(), response=response)
 
         l.add_css("key", "div.citation-doi a::attr(href)")
