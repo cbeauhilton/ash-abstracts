@@ -4,9 +4,6 @@ import scrapy
 from scrapy.http.request import Request
 from scrapy.http import Response
 
-from ..detaconn import (deta_get_start_url_page, deta_put_doi,
-                        deta_put_start_url)
-
 from urllib.parse import quote_plus
 from urllib.parse import urlparse
 from pathlib import Path
