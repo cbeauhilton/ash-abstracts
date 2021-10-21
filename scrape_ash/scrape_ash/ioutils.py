@@ -24,7 +24,7 @@ def mk_doi_json(doi_link: str, response: Response, doi_json_path: str = doi_json
     d = {}
     d["doi"] = doi_link
     d["start_url"] = response.request.url
-    d["start_url_page_num"] = d["start_url"].split("page=", 1)[1]
+    d["start_url_page_num"] = int(d["start_url"].split("page=", 1)[1])
     d["is_scraped"] = 0
 
     p = doi_json_path
