@@ -91,8 +91,11 @@ jobs:
         git add *.db
         git commit --amend --no-edit
         git push --force
+        echo "START_URL_PAGE_NUM env variable:"
+        echo $START_URL_PAGE_NUM
+        echo ""
         echo "Current db contents:"
-        sqlite-utils abstracts.db "SELECT * from abstracts"
+        sqlite-utils abstracts.db "SELECT * from abstracts ORDER BY start_url_page_num DESC LIMIT 10"
         echo ""
         echo "Current number of items in db:"
         sqlite-utils abstracts.db "SELECT count(*) from abstracts"
