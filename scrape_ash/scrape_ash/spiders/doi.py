@@ -11,25 +11,13 @@ class DOISpider(scrapy.Spider):
     def start_requests(self):
         search_url = "https://ashpublications.org/blood/search-results"
         search_string = "?sort=Date+-+Oldest+First&f_ArticleTypeDisplayName=Meeting+Report&fl_SiteID=1000001&page="
-        try:
-            start_url_page = get_start_url_page()
-        except Exception as e:
-            print(f"Could not get start_url_page, exception: {e}")
-            start_url_page = 1
-
-        clean_scrape = self.clean_scrape
-
-        if clean_scrape == "False":
-            clean_scrape = False
-
-        if clean_scrape:
-            start_url_page = 1
+        start_url_page = get_start_url_page()
 
         # the last page last scraped might not be full,
         # so go one page to make sure
         # we're not missing any new items
 
-        if start_url_page > 10:
+        if start_url_page > 5:
             start_url_page = start_url_page - 1
             print(f"Starting scraping at page {start_url_page}.")
 

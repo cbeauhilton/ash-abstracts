@@ -46,11 +46,10 @@ jobs:
       run: |-
         export DETA_TOKEN_ASH=${{ secrets.DETA_TOKEN_ASH }}
         export DETA_ID_ASH=${{ secrets.DETA_ID_ASH }}
-        echo " " > .gitignore
         cd scrape_ash/scrape_ash/
         mkdir -p ash-files/doi_json
         cat gha_settings.py > settings.py
-        scrapy crawl dois -a clean_scrape=True
+        scrapy crawl dois
         cp data/doi_json/*.json ash-files/doi_json/
         cd ash-files
         git config --global user.name "DOI bot"       
@@ -67,15 +66,16 @@ jobs:
         sqlite-utils abstracts.db "select * from abstracts"
     - name: Scrape DOI
       if: |-
-        github.event_name == 'schedule'
+        !contains(github.event.head_commit.message, 'CLEAN_DOI') ||  github.event_name == 'schedule'
       run: |-
         export DETA_TOKEN_ASH=${{ secrets.DETA_TOKEN_ASH }}
         export DETA_ID_ASH=${{ secrets.DETA_ID_ASH }}
-        echo " " > .gitignore
+        # curl --fail -o abstracts.db https://raw.githubusercontent.com/cbeauhilton/ash-db/main/abstracts.db
         cd scrape_ash/scrape_ash/
-        mkdir -p ash-files/doi_json
         cat gha_settings.py > settings.py
-        scrapy crawl dois -a clean_scrape=False
+        export START_URL_PAGE_NUM=$(sqlite3 ash-db/abstracts.db "select MAX(start_url_page_num) from abstracts") || echo "Could not extract start_url_page_num, will start at 0"
+        scrapy crawl dois
+        mkdir -p ash-files/doi_json
         cp data/doi_json/*.json ash-files/doi_json/
         cd ash-files
         git config --global user.name "DOI bot"       

@@ -38,20 +38,9 @@ def mk_doi_json(doi_link: str, response: Response, doi_json_path: str = doi_json
     return d
 
 
-def get_start_url_page(doi_json_path: str = doi_json_path):
-    json_files = [j for j in os.listdir(doi_json_path) if j.endswith(".json")]
-    json_dicts = []
-    for _, js in enumerate(json_files):
-        with open(os.path.join(doi_json_path, js)) as json_file:
-            json_dicts.append(json.load(json_file))
-    pages = [d["start_url"].split("page=", 1)[1] for d in json_dicts]
-    pages = [int(p) for p in list(set(pages)) if p != "None"]
-    len_pages = len(pages)
-    max_pages = max(pages)
-    print(f"Total number of scraped pages: {len_pages}")
-    if len_pages < max_pages:
-        print(
-            f"len_pages != max_pages : len_pages = {len_pages}, max_pages = {max_pages}"
-        )
-    start_url_page = max_pages
+def get_start_url_page():
+    start_url_page = int(os.getenv("START_URL_PAGE_NUM"))
+    if not start_url_page:
+        start_url_page = 1
+
     return start_url_page
