@@ -11,8 +11,20 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - name: Check out repo
+    - name: Checkout this repo
       uses: actions/checkout@v2
+    - name: Checkout ash-db
+      uses: actions/checkout@v2
+      with:
+        repository: cbeauhilton/ash-db
+        path: scrape_ash/scrape_ash/ash-db
+        token: ${{ secrets.PERSONAL_ACCESS_TOKEN_FOR_PUSH }}
+    - name: Checkout ash-files
+      uses: actions/checkout@v2
+      with:
+        repository: cbeauhilton/ash-files
+        path: scrape_ash/scrape_ash/ash-files
+        token: ${{ secrets.PERSONAL_ACCESS_TOKEN_FOR_PUSH }}
     - name: Set up Python
       uses: actions/setup-python@v1
       with:

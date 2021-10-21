@@ -38,6 +38,24 @@ def mk_doi_json(doi_link: str, response: Response, doi_json_path: str = doi_json
     return d
 
 
+def mk_abstract_json(abstract_dict: dict, doi_json_path: str = doi_json_path):
+    p = doi_json_path
+    fname = doi_json_fname(doi_link=abstract_dict["doi"])
+    f_path = f"{p}/{fname}.json"
+    print(fname)
+
+    with open(f_path, "r") as f:
+        doi_dict = json.load(f)
+
+    abstract_dict |= doi_dict
+
+    with open(f_path, "w") as f:
+        print(f_path)
+        print(abstract_dict)
+        # json.dump(abstract_dict, f, indent=4)
+
+    return abstract_dict
+
 def get_start_url_page():
     start_url_page = os.getenv("START_URL_PAGE_NUM")
     if start_url_page:

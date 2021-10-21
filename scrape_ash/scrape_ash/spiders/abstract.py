@@ -9,6 +9,8 @@ from scrapy.loader import ItemLoader
 from ..detaconn import (deta_doi_to_local_disk, deta_get_doi,
                         deta_get_unscraped_doi, deta_put_abstract,
                         deta_unscraped_doi_to_local_disk, doi_from_local_disk)
+
+from ..ioutils import mk_abstract_json
 from ..items import ScrapeAshItem
 
 session = HTMLSession()
@@ -127,6 +129,8 @@ class AbstractSpider(scrapy.Spider):
         l.add_value("is_scraped", "1")
 
         # print(dict(l.load_item()))
-        deta_put_abstract(dict(l.load_item()))
+        # deta_put_abstract(dict(l.load_item()))
+        mk_abstract_json(dict(l.load_item()))
+
 
         yield l.load_item()
