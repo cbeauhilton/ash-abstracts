@@ -57,7 +57,7 @@ jobs:
         git config --global user.email "actions@users.noreply.github.com"
         git add -A
         timestamp=$(date -u)
-        git commit -m "Latest data: ${timestamp}" || exit 0
+        git commit --allow-empty  -m "Latest data: ${timestamp}"
         git push
         for file in doi_json/*.json; do sqlite-utils upsert ../ash-db/abstracts.db abstracts $file --pk=doi --alter; done
         cd ../ash-db
@@ -84,7 +84,7 @@ jobs:
         git config --global user.email "actions@users.noreply.github.com"
         git add -A
         timestamp=$(date -u)
-        git commit -m "Latest data: ${timestamp}" || exit 0
+        git commit --allow-empty -m "Latest data: ${timestamp}"
         git push
         for file in doi_json/*.json; do sqlite-utils upsert ../ash-db/abstracts.db abstracts $file --pk=doi --alter; done
         cd ../ash-db
