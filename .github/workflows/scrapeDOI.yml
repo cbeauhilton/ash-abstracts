@@ -89,4 +89,11 @@ jobs:
         git add *.db
         git commit --amend --no-edit
         git push --force
-        sqlite-utils abstracts.db "select * from abstracts"
+        echo "Current db contents:"
+        sqlite-utils abstracts.db "SELECT * from abstracts"
+        echo ""
+        echo "Current number of items in db:"
+        sqlite-utils abstracts.db "SELECT count(*) from abstracts"
+        echo ""
+        echo "Current start url page number:"
+        sqlite-utils abstracts.db "SELECT MAX(start_url_page_num) from abstracts") 
