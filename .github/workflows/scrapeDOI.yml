@@ -47,6 +47,7 @@ jobs:
         export DETA_TOKEN_ASH=${{ secrets.DETA_TOKEN_ASH }}
         export DETA_ID_ASH=${{ secrets.DETA_ID_ASH }}
         cd scrape_ash/scrape_ash/
+        cat "" > .gitignore
         mkdir -p ash-files/doi_json
         cat gha_settings.py > settings.py
         scrapy crawl dois
