@@ -1,11 +1,11 @@
-name: Scrape abstracts from ASH website
+name: Scrape abstracts
 
 on:
   push:
     branches:
     - main
   schedule:
-    - cron: '39 * * * *'
+    - cron: '39 * 1 * *'
 
 jobs:
   build:

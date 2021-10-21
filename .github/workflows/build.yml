@@ -1,15 +1,17 @@
-name: Build website for analyzing American Society of Hematology Abstracts
+name: Build website
 
 on:
-  push:
-    branches:
-    - main
+  workflow_run:
+    workflows: ["Scrape DOI", "Scrape abstracts"]
+    types:
+      - completed
   schedule:
     - cron: '11 2 */2 * *'
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
     - name: Check out repo
       uses: actions/checkout@v2

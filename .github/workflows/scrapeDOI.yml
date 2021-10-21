@@ -1,4 +1,4 @@
-name: Scrape DOI from ASH website
+name: Scrape DOI
 
 on:
   push:
@@ -11,7 +11,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - name: Check out this repo
+    - name: Checkout this repo
       uses: actions/checkout@v2
     - name: Checkout ash-db
       uses: actions/checkout@v2
