@@ -96,4 +96,4 @@ jobs:
         sqlite-utils abstracts.db "SELECT count(*) from abstracts"
         echo ""
         echo "Current start url page number:"
-        sqlite-utils abstracts.db "SELECT MAX(start_url_page_num) from abstracts") 
+        sqlite-utils abstracts.db "SELECT MAX(start_url_page_num) from abstracts"
