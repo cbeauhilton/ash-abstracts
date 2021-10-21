@@ -46,7 +46,7 @@ jobs:
       run: |-
         export DETA_TOKEN_ASH=${{ secrets.DETA_TOKEN_ASH }}
         export DETA_ID_ASH=${{ secrets.DETA_ID_ASH }}
-        cat " " > .gitignore
+        echo " " > .gitignore
         cd scrape_ash/scrape_ash/
         mkdir -p ash-files/doi_json
         cat gha_settings.py > settings.py
@@ -71,7 +71,7 @@ jobs:
       run: |-
         export DETA_TOKEN_ASH=${{ secrets.DETA_TOKEN_ASH }}
         export DETA_ID_ASH=${{ secrets.DETA_ID_ASH }}
-        cat " " > .gitignore
+        echo " " > .gitignore
         # curl --fail -o abstracts.db https://raw.githubusercontent.com/cbeauhilton/ash-db/main/abstracts.db
         cd scrape_ash/scrape_ash/
         cat gha_settings.py > settings.py
