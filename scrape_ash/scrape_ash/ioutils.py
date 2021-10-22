@@ -86,6 +86,6 @@ def mk_abstract_json(abstract_dict: dict, doi_json_path: str = doi_json_path):
     with open(f_path, "w") as f:
         print(f_path)
         print(abstract_dict)
-        # json.dump(abstract_dict, f, indent=4)
+        json.dump(abstract_dict, f, indent=4)
 
     return abstract_dict

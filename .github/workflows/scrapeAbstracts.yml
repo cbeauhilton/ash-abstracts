@@ -11,7 +11,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout this repo
+    - name: Checkout ash-abstracts
       uses: actions/checkout@v2
     - name: Checkout ash-db
       uses: actions/checkout@v2
@@ -44,8 +44,8 @@ jobs:
       if: |-
         contains(github.event.head_commit.message, 'ABSTRACT') || (github.event_name == 'schedule')
       run: |-
-        export DETA_TOKEN_ASH=${{ secrets.DETA_TOKEN_ASH }}
-        export DETA_ID_ASH=${{ secrets.DETA_ID_ASH }}
+        # export DETA_TOKEN_ASH=${{ secrets.DETA_TOKEN_ASH }}
+        # export DETA_ID_ASH=${{ secrets.DETA_ID_ASH }}
         cd scrape_ash/scrape_ash/
         mkdir -p data
         mkdir -p data/doi_json
