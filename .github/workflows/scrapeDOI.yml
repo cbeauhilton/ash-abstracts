@@ -59,7 +59,8 @@ jobs:
         timestamp=$(date -u)
         git commit --allow-empty  -m "Latest data: ${timestamp}"
         git push
-        for file in doi_json/*.json; do sqlite-utils upsert ../ash-db/abstracts.db abstracts $file --pk=doi --alter; done
+        # for file in doi_json/*.json; do sqlite-utils upsert ../ash-db/abstracts.db abstracts $file --pk=doi --alter; done
+        jq -s '.' doi_json/*.json | sqlite-utils upsert ../ash-db/abstracts abstracts - --pk=doi --alter
         cd ../ash-db
         git add *.db
         git commit --amend --no-edit

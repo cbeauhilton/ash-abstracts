@@ -1,0 +1,59 @@
+name: Make database
+
+on:
+  workflow_run:
+    workflows: ["Scrape DOI", "Scrape abstracts"]
+    types:
+      - completed
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+    - name: Checkout this repo
+      uses: actions/checkout@v2
+    - name: Checkout ash-db
+      uses: actions/checkout@v2
+      with:
+        repository: cbeauhilton/ash-db
+        path: ash-db
+        token: ${{ secrets.PERSONAL_ACCESS_TOKEN_FOR_PUSH }}
+    - name: Checkout ash-files
+      uses: actions/checkout@v2
+      with:
+        repository: cbeauhilton/ash-files
+        path: ash-files
+        token: ${{ secrets.PERSONAL_ACCESS_TOKEN_FOR_PUSH }}
+    - name: Set up Python
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.9
+    - uses: actions/cache@v2
+      name: Configure pip caching
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+    - name: Install Python dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r scraping-requirements.txt
+    - name: Make database
+      run: |-
+        git config --global user.name "db bot"       
+        git config --global user.email "actions@users.noreply.github.com"
+        jq -s '.' ash-files/doi_json/*.json | sqlite-utils upsert ash-db/abstracts.db abstracts - --pk=doi --alter
+        cd ash-db
+        git add *.db
+        git commit --amend --no-edit
+        git push --force
+        echo "Current db contents, head:"
+        sqlite-utils abstracts.db "SELECT * from abstracts ORDER BY start_url_page_num DESC LIMIT 10"
+        echo ""
+        echo "Current number of items in db:"
+        sqlite-utils abstracts.db "SELECT count(*) from abstracts"
+        echo ""
+        echo "Current start url page number:"
+        sqlite-utils abstracts.db "SELECT MAX(start_url_page_num) from abstracts"
