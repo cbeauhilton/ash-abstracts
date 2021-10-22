@@ -47,7 +47,7 @@ def mk_abstract_json(abstract_dict: dict, doi_json_path: str = doi_json_path):
     with open(f_path, "r") as f:
         doi_dict = json.load(f)
 
-    abstract_dict |= doi_dict
+    abstract_dict = doi_dict | abstract_dict
 
     with open(f_path, "w") as f:
         print(f_path)
