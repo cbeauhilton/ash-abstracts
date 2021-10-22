@@ -1,7 +1,7 @@
 from itemadapter import ItemAdapter
 from scrapy.exceptions import DropItem
 
-from .detaconn import deta_put_abstract
+from .ioutils import mk_abstract_json
 
 
 class AbstractPipeline:
@@ -18,5 +18,5 @@ class AbstractPipeline:
                 f"Length of author list and affiliation list are not equal in {item}."
             )
         else:
-            deta_put_abstract(adapter.asdict())
+            mk_abstract_json(adapter.asdict())
             return item
