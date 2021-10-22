@@ -44,8 +44,6 @@ jobs:
       if: |-
         contains(github.event.head_commit.message, 'CLEAN_DOI')
       run: |-
-        export DETA_TOKEN_ASH=${{ secrets.DETA_TOKEN_ASH }}
-        export DETA_ID_ASH=${{ secrets.DETA_ID_ASH }}
         echo " " > .gitignore
         cd scrape_ash/scrape_ash/
         mkdir -p ash-files/doi_json
@@ -59,24 +57,14 @@ jobs:
         timestamp=$(date -u)
         git commit --allow-empty  -m "Latest data: ${timestamp}"
         git push
-        # for file in doi_json/*.json; do sqlite-utils upsert ../ash-db/abstracts.db abstracts $file --pk=doi --alter; done
-        jq -s '.' doi_json/*.json | sqlite-utils upsert ../ash-db/abstracts abstracts - --pk=doi --alter
-        cd ../ash-db
-        git add *.db
-        git commit --amend --no-edit
-        git push --force
-        sqlite-utils abstracts.db "select * from abstracts"
     - name: Scrape DOI
       if: |-
         !contains(github.event.head_commit.message, 'CLEAN_DOI') ||  github.event_name == 'schedule'
       run: |-
-        export DETA_TOKEN_ASH=${{ secrets.DETA_TOKEN_ASH }}
-        export DETA_ID_ASH=${{ secrets.DETA_ID_ASH }}
         echo " " > .gitignore
-        # curl --fail -o abstracts.db https://raw.githubusercontent.com/cbeauhilton/ash-db/main/abstracts.db
         cd scrape_ash/scrape_ash/
         cat gha_settings.py > settings.py
-        export START_URL_PAGE_NUM=$(sqlite3 ash-db/abstracts.db "select MAX(start_url_page_num) from abstracts") || echo "Could not extract start_url_page_num, will start at 0"
+        export START_URL_PAGE_NUM=$(sqlite3 ash-db/abstracts.db "select MAX(start_url_page_num) from abstracts")
         scrapy crawl dois
         mkdir -p ash-files/doi_json
         cp data/doi_json/*.json ash-files/doi_json/
@@ -87,19 +75,3 @@ jobs:
         timestamp=$(date -u)
         git commit --allow-empty -m "Latest data: ${timestamp}"
         git push
-        for file in doi_json/*.json; do sqlite-utils upsert ../ash-db/abstracts.db abstracts $file --pk=doi --alter; done
-        cd ../ash-db
-        git add *.db
-        git commit --amend --no-edit
-        git push --force
-        echo "START_URL_PAGE_NUM env variable:"
-        echo $START_URL_PAGE_NUM
-        echo ""
-        echo "Current db contents:"
-        sqlite-utils abstracts.db "SELECT * from abstracts ORDER BY start_url_page_num DESC LIMIT 10"
-        echo ""
-        echo "Current number of items in db:"
-        sqlite-utils abstracts.db "SELECT count(*) from abstracts"
-        echo ""
-        echo "Current start url page number:"
-        sqlite-utils abstracts.db "SELECT MAX(start_url_page_num) from abstracts"
