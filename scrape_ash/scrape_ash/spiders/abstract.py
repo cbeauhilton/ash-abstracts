@@ -80,5 +80,4 @@ class AbstractSpider(scrapy.Spider):
         # deta_put_abstract(dict(l.load_item()))
         mk_abstract_json(dict(l.load_item()))
 
-
         yield l.load_item()
