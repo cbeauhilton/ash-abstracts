@@ -46,7 +46,7 @@ class AbstractSpider(scrapy.Spider):
     def parse(self, response):
         l = ItemLoader(item=ScrapeAshItem(), response=response)
 
-        l.add_css("key", "div.citation-doi a::attr(href)")
+        # l.add_css("key", "div.citation-doi a::attr(href)")
         l.add_css("doi", "div.citation-doi a::attr(href)")
         l.add_css("article_title", "h1.wi-article-title.article-title-main ::text")
         l.add_css("article_date", "span.article-date")

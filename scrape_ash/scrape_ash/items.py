@@ -1,4 +1,4 @@
-from urllib.parse import quote_plus
+# from urllib.parse import quote_plus
 
 import scrapy
 from itemloaders.processors import Join, MapCompose
@@ -6,7 +6,7 @@ from w3lib.html import remove_tags
 
 
 class ScrapeAshItem(scrapy.Item):
-    key = scrapy.Field(input_processor=MapCompose(quote_plus), output_processor=Join())
+    # key = scrapy.Field(input_processor=MapCompose(quote_plus), output_processor=Join())
 
     doi = scrapy.Field(output_processor=Join())
 
