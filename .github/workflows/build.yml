@@ -2,7 +2,7 @@ name: Build website
 
 on:
   workflow_run:
-    workflows: ["Scrape DOI", "Scrape abstracts"]
+    workflows: ["Make database"]
     types:
       - completed
 
