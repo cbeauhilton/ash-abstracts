@@ -50,10 +50,4 @@ jobs:
         mkdir -p data
         mkdir -p data/doi_json
         cat gha_settings.py > settings.py
-        scrapy crawl abstracts \
-        -a get_url_from_web=True \
-        -a clean_scrape=False \
-        -a get_doi_from_disk=False \
-        -a unscraped_n_to_download=100000 \
-        -a sample_size=100
-        echo ""
+        scrapy crawl abstracts

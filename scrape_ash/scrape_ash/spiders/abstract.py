@@ -1,4 +1,3 @@
-import random
 import re
 
 import scrapy
@@ -6,11 +5,7 @@ from requests_html import HTMLSession
 from scrapy.http.request import Request
 from scrapy.loader import ItemLoader
 
-from ..detaconn import (deta_doi_to_local_disk, deta_get_doi,
-                        deta_get_unscraped_doi, deta_put_abstract,
-                        deta_unscraped_doi_to_local_disk, doi_from_local_disk)
-
-from ..ioutils import mk_abstract_json
+from ..ioutils import mk_abstract_json, get_unscraped
 from ..items import ScrapeAshItem
 
 session = HTMLSession()
@@ -32,12 +27,6 @@ def google_lat_lon(query: str):
     return lat, lon
 
 
-def chunks(lst, n):
-    """Yield successive n-sized chunks from lst."""
-    for i in range(0, len(lst), n):
-        yield lst[i : i + n]
-
-
 def remove_intr_by(string: str) -> str:
     clean_str = re.sub("\(Intr\..*?\)", "", string)
     return clean_str
@@ -48,49 +37,8 @@ class AbstractSpider(scrapy.Spider):
     allowed_domains = ["ashpublications.org", "doi.org"]
 
     def start_requests(self):
-        # pass in the following as -a arguments to scrapy crawl
-        # anything other than "False" will evaluate as True
 
-        clean_scrape = self.clean_scrape
-        get_url_from_web = self.get_url_from_web
-        get_doi_from_disk = self.get_doi_from_disk
-
-        if clean_scrape == "False":
-            clean_scrape = False
-        if get_url_from_web == "False":
-            get_url_from_web = False
-        if get_doi_from_disk == "False":
-            get_doi_from_disk = False
-
-        print(
-            f"""
-        clean_scrape: {clean_scrape} {type(clean_scrape)}, 
-
-        get_url_from_web: {get_url_from_web} {type(get_url_from_web)}, 
-
-        get_doi_from_disk: {get_doi_from_disk} {type(get_doi_from_disk)},
-                """
-        )
-
-        if clean_scrape:
-            start_urls = deta_get_doi()
-            deta_doi_to_local_disk(start_urls)
-
-        elif get_url_from_web:
-            start_urls = deta_get_unscraped_doi(int(self.unscraped_n_to_download))
-            deta_unscraped_doi_to_local_disk(start_urls)
-
-        elif get_doi_from_disk:
-            start_urls = doi_from_local_disk()
-
-            # Next part was to add flags, hopefully only have to do once
-            # chunked = list(chunks(start_urls, 25))
-            # for urls in chunked:
-            #     deta_put_scraped_flag(urls)
-
-        if len(start_urls) > int(self.sample_size):
-            start_urls = random.sample(start_urls, int(self.sample_size))
-        print(start_urls)
+        start_urls = get_unscraped()
 
         for url in start_urls:
             yield Request(url, self.parse)
