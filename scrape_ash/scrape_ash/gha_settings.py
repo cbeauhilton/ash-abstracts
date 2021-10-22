@@ -9,6 +9,7 @@ COOKIES_ENABLED = False
 DOWNLOAD_DELAY = 3
 CONCURRENT_REQUESTS = 2  # don't get kicked out! Default 16.
 CLOSESPIDER_PAGECOUNT = 100 # limit number of scraped pages per crawl
+CLOSESPIDER_ITEMCOUNT = 100 # limit number of scraped items per crawl
 
 ITEM_PIPELINES = {
     "scrape_ash.pipelines.AbstractPipeline": 300,
