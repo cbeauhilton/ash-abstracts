@@ -68,11 +68,19 @@ class AbstractSpider(scrapy.Spider):
         first_author_affiliation = author_affiliation_list[0]
         # handle getting the first affiliation if author has multiple affiliations
         if isinstance(first_author_affiliation, list):
-            first_author_affiliation = first_author_affiliation[0]
-        lat, lon = google_lat_lon(first_author_affiliation)
+            if first_author_affiliation[0]:
+                first_author_affiliation = first_author_affiliation[0]
+            else:
+                first_author_affiliation = None
+
+        if first_author_affiliation:
+            lat, lon = google_lat_lon(first_author_affiliation)
+        else:
+            lat = None
+            lon = None
+
         l.add_value("first_author_latitude", lat)
         l.add_value("first_author_longitude", lon)
-
         l.add_value("is_scraped", "1")
 
         mk_abstract_json(dict(l.load_item()))
