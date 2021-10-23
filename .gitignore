@@ -2,6 +2,10 @@
 *.log
 *.db
 
+# keep these
+!metadata.json
+!remote-metadata.json
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

@@ -1,0 +1,7 @@
+ {
+    "plugins": {
+        "datasette-remote-metadata": {
+            "url": "https://raw.githubusercontent.com/cbeauhilton/ash-abstracts/main/remote-metadata.json"
+        }
+    }
+}
