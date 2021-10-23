@@ -44,7 +44,9 @@ jobs:
       run: |-
         git config --global user.name "db bot"       
         git config --global user.email "actions@users.noreply.github.com"
-        find -maxdepth 1 -type f -path ash-files/doi_json -name \*.json -exec cat {} + | jq -s . > output.json
+        cd ash-files/doi_json
+        find -maxdepth 1 -type f -name \*.json -exec cat {} + | jq -s . > ../../output.json
+        cd ../..
         sqlite-utils upsert ash-db/abstracts.db abstracts output.json --pk=doi --alter
         cd ash-db
         git add *.db
