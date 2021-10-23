@@ -5,7 +5,7 @@ from requests_html import HTMLSession
 from scrapy.http.request import Request
 from scrapy.loader import ItemLoader
 
-from ..ioutils import mk_abstract_json, get_unscraped
+from ..ioutils import get_unscraped, mk_abstract_json
 from ..items import ScrapeAshItem
 
 session = HTMLSession()
@@ -46,7 +46,6 @@ class AbstractSpider(scrapy.Spider):
     def parse(self, response):
         l = ItemLoader(item=ScrapeAshItem(), response=response)
 
-        # l.add_css("key", "div.citation-doi a::attr(href)")
         l.add_css("doi", "div.citation-doi a::attr(href)")
         l.add_css("article_title", "h1.wi-article-title.article-title-main ::text")
         l.add_css("article_date", "span.article-date")
@@ -64,7 +63,6 @@ class AbstractSpider(scrapy.Spider):
             # if that resulted in an empty string, remove it
             authors_affils = list(filter(None, authors_affils))
             author_affiliation_list.append(authors_affils)
-
         l.add_value("author_affiliations", author_affiliation_list)
 
         first_author_affiliation = author_affiliation_list[0]
@@ -74,10 +72,9 @@ class AbstractSpider(scrapy.Spider):
         lat, lon = google_lat_lon(first_author_affiliation)
         l.add_value("first_author_latitude", lat)
         l.add_value("first_author_longitude", lon)
+
         l.add_value("is_scraped", "1")
 
-        # print(dict(l.load_item()))
-        # deta_put_abstract(dict(l.load_item()))
         mk_abstract_json(dict(l.load_item()))
 
         yield l.load_item()

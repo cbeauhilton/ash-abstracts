@@ -1,9 +1,9 @@
 import json
 import os
-import requests
 from pathlib import Path
 from urllib.parse import quote_plus, urlparse
 
+import requests
 from scrapy.http import Response
 
 doi_json_path = "data/doi_json"
@@ -30,6 +30,7 @@ def get_start_url_page():
 
     return start_url_page
 
+
 def mk_doi_json(doi_link: str, response: Response, doi_json_path: str = doi_json_path):
     d = {}
     d["doi"] = doi_link
@@ -48,18 +49,17 @@ def mk_doi_json(doi_link: str, response: Response, doi_json_path: str = doi_json
     return d
 
 
-
-
 def get_unscraped():
-    url = 'https://ash-abstracts.vercel.app/abstracts/abstracts.json?_sort=doi&is_scraped__exact=0&_shape=array'
+    url = "https://ash-abstracts.vercel.app/abstracts/abstracts.json?_sort=doi&is_scraped__exact=0&_shape=array"
     res = requests.get(url=url)
-    l = res.json() 
+    l = res.json()
     with open("unscraped.json", "w") as f:
         json.dump(l, f, indent=4)
 
-    doi_list = [d['doi'] for d in l]
+    doi_list = [d["doi"] for d in l]
 
     return doi_list
+
 
 def get_doi_dict(doi: str):
     with open("unscraped.json", "r") as f:
@@ -67,6 +67,7 @@ def get_doi_dict(doi: str):
     for doi_dict in doi_dict_list:
         if doi_dict["doi"] == doi:
             d = doi_dict
+
     return d
 
 
@@ -77,15 +78,11 @@ def mk_abstract_json(abstract_dict: dict, doi_json_path: str = doi_json_path):
     fname = doi_json_fname(doi_link=doi)
     f_path = f"{p}/{fname}.json"
 
-    print(fname)
-
     doi_dict = get_doi_dict(doi)
 
     abstract_dict = doi_dict | abstract_dict
 
     with open(f_path, "w") as f:
-        print(f_path)
-        print(abstract_dict)
         json.dump(abstract_dict, f, indent=4)
 
     return abstract_dict
