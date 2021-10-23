@@ -60,5 +60,5 @@ jobs:
           --metadata metadata.json \
           --install datasette-json-html \
           --install datasette-cluster-map \
-          --install datasette-remote-metadata \
+          # --install datasette-remote-metadata \
           --public
