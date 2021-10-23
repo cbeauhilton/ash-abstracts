@@ -47,11 +47,12 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: '12.x'
+    - name: Replace metadata.json
+      run: cat remote-metadata.json > metadata.json
     - name: Deploy Datasette using Vercel
       env:
         NOW_TOKEN: ${{ secrets.NOW_TOKEN }}
       run: |-
-        cat remote-metadata.json > metadata.json
         datasette publish vercel abstracts.db \
           --setting default_page_size 300 \
           --token $NOW_TOKEN \
@@ -60,5 +61,5 @@ jobs:
           --metadata metadata.json \
           --install datasette-json-html \
           --install datasette-cluster-map \
-          # --install datasette-remote-metadata \
+          --install datasette-remote-metadata \
           --public
