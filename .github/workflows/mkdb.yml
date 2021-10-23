@@ -55,6 +55,7 @@ jobs:
         echo ""
         echo "Current number of items in db:"
         sqlite-utils abstracts.db "SELECT count(*) from abstracts"
+        echo ""
         echo "Current number of scraped items in db:"
         sqlite-utils abstracts.db "SELECT count(*) from abstracts WHERE is_scraped = 1"
         echo ""
