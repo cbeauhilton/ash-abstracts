@@ -51,6 +51,7 @@ jobs:
       env:
         NOW_TOKEN: ${{ secrets.NOW_TOKEN }}
       run: |-
+        cat remote-metadata.json > metadata.json
         datasette publish vercel abstracts.db \
           --setting default_page_size 300 \
           --token $NOW_TOKEN \
