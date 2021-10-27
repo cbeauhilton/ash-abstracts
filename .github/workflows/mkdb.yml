@@ -77,4 +77,5 @@ jobs:
       with:
         repository: cbeauhilton/ash-db
         token: ${{ secrets.PERSONAL_ACCESS_TOKEN_FOR_PUSH }}
+        tag_name: "newDB"
         files: ash-db/abstracts.db
