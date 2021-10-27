@@ -54,7 +54,8 @@ jobs:
         sqlite-utils optimize ash-db/abstracts.db
         cd ash-db
         timestamp=$(date -u)
-        echo "Release last updated: ${timestamp}" > README.md
+        echo "Release last updated: ${timestamp} . " > README.md
+        echo "Database available [here]\(https://github.com/cbeauhilton/ash-db/releases/download/newDB/abstracts.db\)." >> README.md
         git remote prune origin
         git add README.md
         git commit --amend --no-edit
