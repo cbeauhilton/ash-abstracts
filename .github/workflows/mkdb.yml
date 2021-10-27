@@ -40,15 +40,12 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install sqlite-utils
-        # pip install -r scraping-requirements.txt
     - name: Make database
       run: |-
         git config --global user.name "db bot"       
         git config --global user.email "actions@users.noreply.github.com"
-        cd ash-files/doi_json
-        find -maxdepth 1 -type f -name \*.json -exec cat {} + | jq -s . > ../../db.json
-        cd ../..
-        sqlite-utils upsert ash-db/abstracts.db abstracts db.json --pk=doi --alter
+        find ash-files/doi_json -maxdepth 1 -type f -name \*.json -exec cat {} + | jq -s . > db.json
+        sqlite-utils insert ash-db/abstracts.db abstracts db.json --pk=doi
         sqlite-utils enable-counts ash-db/abstracts.db
         sqlite-utils enable-fts ash-db/abstracts.db abstracts article_title abstract_text author_affiliations
         sqlite-utils optimize ash-db/abstracts.db
