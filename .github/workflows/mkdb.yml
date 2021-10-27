@@ -72,7 +72,7 @@ jobs:
         echo ""
         echo "Current start url page number:"
         sqlite-utils abstracts.db "SELECT MAX(start_url_page_num) from abstracts"
-      - name: Upload to releases
-        uses: softprops/action-gh-release@v1
-        with:
-          files: ash-db/abstracts.db
+    - name: Upload to releases
+      uses: softprops/action-gh-release@v1
+      with:
+        files: ash-db/abstracts.db
