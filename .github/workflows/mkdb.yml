@@ -47,12 +47,13 @@ jobs:
         find ash-files/doi_json -maxdepth 1 -type f -name \*.json -exec cat {} + | jq -s . > db.json
         sqlite-utils insert ash-db/abstracts.db abstracts db.json --pk=doi --alter
         sqlite-utils enable-counts ash-db/abstracts.db
-        # sqlite-utils enable-fts ash-db/abstracts.db abstracts article_title abstract_text author_affiliations
+        sqlite-utils enable-fts ash-db/abstracts.db abstracts article_title abstract_text author_affiliations
         sqlite-utils optimize ash-db/abstracts.db
         cd ash-db
         timestamp=$(date -u)
         echo "Release last updated: ${timestamp} . " > README.md
-        echo "Database available [here](https://github.com/cbeauhilton/ash-db/releases/download/newDB/abstracts.db)." >> README.md
+        echo "" >> README.md
+        echo "Direct download available [here](https://github.com/cbeauhilton/ash-db/releases/download/newDB/abstracts.db)." >> README.md
         git remote prune origin
         git add README.md
         git commit --amend --no-edit
