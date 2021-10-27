@@ -49,5 +49,4 @@ jobs:
           --metadata metadata.yaml \
           --install datasette-json-html \
           --install datasette-cluster-map \
-          # --install datasette-remote-metadata \
           --public

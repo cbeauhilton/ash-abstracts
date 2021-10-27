@@ -1,3 +1,4 @@
+iso3166
 datasette
 dateparser
 datasette-cluster-map
@@ -58,6 +59,7 @@ queuelib
 regex 
 requests
 requests-html 
+reverse-geocode
 Scrapy 
 service-identity 
 shellingham
