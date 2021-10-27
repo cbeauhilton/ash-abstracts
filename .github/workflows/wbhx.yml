@@ -25,7 +25,7 @@ jobs:
     - name: Install Python dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt
+        pip install datasette sqlite-utils
         datasette install datasette-publish-vercel
     - name: Make database
       run: sqlite-utils insert wb.db wbhx get_wbg_data/income_group_history.csv --csv --pk="Country Code"
