@@ -45,13 +45,14 @@ jobs:
         git config --global user.name "db bot"       
         git config --global user.email "actions@users.noreply.github.com"
         cd ash-files/doi_json
-        find -maxdepth 1 -type f -name \*.json -exec cat {} + | jq -s . > ../../output.json
+        find -maxdepth 1 -type f -name \*.json -exec cat {} + | jq -s . > ../../db.json
         cd ../..
-        sqlite-utils upsert ash-db/abstracts.db abstracts output.json --pk=doi --alter
+        sqlite-utils upsert ash-db/abstracts.db abstracts db.json --pk=doi --alter
         sqlite-utils enable-counts ash-db/abstracts.db
         sqlite-utils optimize ash-db/abstracts.db
         cd ash-db
-        git add *.db
+        git remote prune origin
+        git add abstracts.db
         git commit --amend --no-edit
         git push --force
         echo "Current db contents, head:"
