@@ -13,12 +13,6 @@ jobs:
     steps:
     - name: Checkout this repo
       uses: actions/checkout@v2
-    - name: Checkout ash-db
-      uses: actions/checkout@v2
-      with:
-        repository: cbeauhilton/ash-db
-        path: scrape_ash/scrape_ash/ash-db
-        token: ${{ secrets.PERSONAL_ACCESS_TOKEN_FOR_PUSH }}
     - name: Checkout ash-files
       uses: actions/checkout@v2
       with:
@@ -61,10 +55,11 @@ jobs:
       if: |-
         !contains(github.event.head_commit.message, 'CLEAN_DOI') && contains(github.event.head_commit.message, 'DOI') || github.event_name == 'schedule'
       run: |-
+        curl --fail -OL https://github.com/cbeauhilton/ash-db/releases/download/newDB/abstracts.db
         echo " " > .gitignore
         cd scrape_ash/scrape_ash/
         cat gha_settings.py > settings.py
-        export START_URL_PAGE_NUM=$(sqlite3 ash-db/abstracts.db "select MAX(start_url_page_num) from abstracts")
+        export START_URL_PAGE_NUM=$(sqlite3 abstracts.db "select MAX(start_url_page_num) from abstracts")
         scrapy crawl dois
         mkdir -p ash-files/doi_json
         cp data/doi_json/*.json ash-files/doi_json/

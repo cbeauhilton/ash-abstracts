@@ -30,7 +30,8 @@ jobs:
         pip install datasette sqlite-utils
         datasette install datasette-publish-vercel
     - name: Download database
-      run: curl --fail -o abstracts.db https://raw.githubusercontent.com/cbeauhilton/ash-db/main/abstracts.db
+      run: curl --fail -OL https://github.com/cbeauhilton/ash-db/releases/download/newDB/abstracts.db
+      # run: curl --fail -o abstracts.db https://raw.githubusercontent.com/cbeauhilton/ash-db/main/abstracts.db
     - name: Soundness check
       run: |-
         datasette abstracts.db --get / | grep "abstracts"

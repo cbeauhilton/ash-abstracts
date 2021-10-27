@@ -19,7 +19,6 @@ jobs:
         repository: cbeauhilton/ash-db
         path: ash-db
         token: ${{ secrets.PERSONAL_ACCESS_TOKEN_FOR_PUSH }}
-        lfs: 'true'
     - name: Checkout ash-files
       uses: actions/checkout@v2
       with:
@@ -40,7 +39,8 @@ jobs:
     - name: Install Python dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r scraping-requirements.txt
+        pip install sqlite-utils
+        # pip install -r scraping-requirements.txt
     - name: Make database
       run: |-
         git config --global user.name "db bot"       
@@ -50,12 +50,13 @@ jobs:
         cd ../..
         sqlite-utils upsert ash-db/abstracts.db abstracts db.json --pk=doi --alter
         sqlite-utils enable-counts ash-db/abstracts.db
-        # sqlite-utils enable-fts ash-db/abstracts.db abstracts article_title abstract_text author_affiliations
+        sqlite-utils enable-fts ash-db/abstracts.db abstracts article_title abstract_text author_affiliations
         sqlite-utils optimize ash-db/abstracts.db
         cd ash-db
+        timestamp=$(date -u)
+        echo "Release last updated: ${timestamp}" > README.md
         git remote prune origin
-        # git lfs track "*.db" # or maybe via a release?
-        git add abstracts.db
+        git add README.md
         git commit --amend --no-edit
         git push --force
     - name: Current db info
