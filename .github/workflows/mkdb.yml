@@ -19,6 +19,7 @@ jobs:
         repository: cbeauhilton/ash-db
         path: ash-db
         token: ${{ secrets.PERSONAL_ACCESS_TOKEN_FOR_PUSH }}
+        lfs: 'true'
     - name: Checkout ash-files
       uses: actions/checkout@v2
       with:
