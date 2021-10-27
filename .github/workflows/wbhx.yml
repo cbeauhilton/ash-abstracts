@@ -1,0 +1,57 @@
+name: API for World Bank historical income group data
+
+on:
+  push:
+    branches:
+    - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out repo
+      uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.9
+    - uses: actions/cache@v2
+      name: Configure pip caching
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+    - uses: actions/cache@v2
+      name: Configure node caching
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-node-
+        restore-keys: |
+          ${{ runner.os }}-node-
+    - name: Install Python dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        datasette install datasette-publish-vercel
+    - name: Install npm dependencies
+      run: sudo npm install -g puppeteer-cli --unsafe-perm=true
+    - name: make database
+      run: sqlite-utils insert wb.db wbhx get_wbg_data/income_group_history.csv --csv
+    - name: Soundness check
+      run: |-
+        datasette wb.db --get / | grep "wbhx"
+    - name: Setup Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: '12.x'
+    - name: Deploy Datasette using Vercel
+      env:
+        NOW_TOKEN: ${{ secrets.NOW_TOKEN }}
+      run: |-
+        datasette publish vercel wb.db \
+          --setting default_page_size 300 \
+          --token $NOW_TOKEN \
+          --project wbhx \
+          --static static:static \
+          --public
