@@ -1,5 +1,5 @@
 plugins:
   datasette-remote-metadata:
-    url: https://raw.githubusercontent.com/cbeauhilton/ash-abstracts/main/remote-metadata.json
+    url: https://raw.githubusercontent.com/cbeauhilton/ash-abstracts/main/remote-metadata.yaml
     ttl: 30
     cachebust: true

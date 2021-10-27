@@ -34,8 +34,9 @@ jobs:
     - name: Soundness check
       run: |-
         datasette abstracts.db --get / | grep "abstracts"
-    # - name: Replace metadata.json
-    #   run: cat remote-metadata.json > metadata.json
+    - name: Replace metadata.json
+      # Vercel does not yet support Python >3.6, which is req by remote-metadata
+      run: cat remote-metadata.yaml > metadata.yaml
     - name: Deploy Datasette using Vercel
       env:
         NOW_TOKEN: ${{ secrets.NOW_TOKEN }}
@@ -48,5 +49,5 @@ jobs:
           --metadata metadata.yaml \
           --install datasette-json-html \
           --install datasette-cluster-map \
-          --install datasette-remote-metadata \
+          # --install datasette-remote-metadata \
           --public
