@@ -45,7 +45,7 @@ jobs:
           --token $NOW_TOKEN \
           --project ash-abstracts \
           --static static:static \
-          --metadata metadata.json \
+          --metadata metadata.yaml \
           --install datasette-json-html \
           --install datasette-cluster-map \
           --install datasette-remote-metadata \
