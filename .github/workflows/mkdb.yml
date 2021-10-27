@@ -69,7 +69,7 @@ jobs:
         timestamp=$(date -u)
         echo "Release last updated: ${timestamp} . " > README.md
         echo "" >> README.md
-        echo "Direct download available [here](https://github.com/cbeauhilton/ash-db/releases/download/newDB/abstracts.db)." >> README.md
+        echo "Direct download available [here](https://github.com/cbeauhilton/ash-db/releases/download/database/abstracts.db)." >> README.md
         git remote prune origin
         git add README.md
         git commit --amend --no-edit
