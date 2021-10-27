@@ -49,6 +49,7 @@ jobs:
         cd ../..
         sqlite-utils upsert ash-db/abstracts.db abstracts db.json --pk=doi --alter
         sqlite-utils enable-counts ash-db/abstracts.db
+        # sqlite-utils enable-fts ash-db/abstracts.db abstracts article_title abstract_text author_affiliations
         sqlite-utils optimize ash-db/abstracts.db
         cd ash-db
         git remote prune origin
