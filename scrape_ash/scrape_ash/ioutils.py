@@ -59,8 +59,10 @@ def get_unscraped():
     with open("unscraped.json", "w") as f:
         json.dump(l, f, indent=4)
 
+    doi_list = [d["doi"] for d in l]
+
     # and another randomization for good measure
-    doi_list = random.shuffle([d["doi"] for d in l])
+    random.shuffle(doi_list)
 
     return doi_list
 
