@@ -68,7 +68,7 @@ class AbstractSpider(scrapy.Spider):
         first_author_affiliation = author_affiliation_list[0]
         # handle getting the first affiliation if author has multiple affiliations
         if isinstance(first_author_affiliation, list):
-            if first_author_affiliation[0]:
+            if first_author_affiliation:
                 first_author_affiliation = first_author_affiliation[0]
             else:
                 first_author_affiliation = None
