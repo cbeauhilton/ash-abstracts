@@ -1,9 +1,6 @@
 name: Scrape DOI
 
 on:
-  push:
-    branches:
-    - main
   schedule:
     - cron: '12 3 * * 0'
 
