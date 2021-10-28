@@ -50,7 +50,8 @@ def mk_doi_json(doi_link: str, response: Response, doi_json_path: str = doi_json
 
 
 def get_unscraped():
-    url = "https://ash-abstracts.vercel.app/abstracts/abstracts.json?_sort=start_url_page_num&is_scraped__exact=0&_shape=array"
+    # select randomly so that the same screwy ones that don't work won't puddle as much near the top
+    url = "https://ash-abstracts.vercel.app/abstracts.json?sql=SELECT%20*%20FROM%20abstracts%20WHERE%20%22is_scraped%22%20%3D%20%3Ap0%20AND%20doi%20IN%20(SELECT%20doi%20FROM%20abstracts%20ORDER%20BY%20RANDOM()%20LIMIT%20300)&p0=0&_shape=array"
     res = requests.get(url=url)
     l = res.json()
     with open("unscraped.json", "w") as f:
