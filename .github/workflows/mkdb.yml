@@ -45,7 +45,7 @@ jobs:
         git config --global user.name "db bot"       
         git config --global user.email "actions@users.noreply.github.com"
         find ash-files/doi_json -maxdepth 1 -type f -name \*.json -exec cat {} + | jq -s . > db.json
-        sqlite-utils insert ash-db/abstracts.db abstracts db.json --pk=doi --alter
+        sqlite-utils insert ash-db/abstracts_full.db abstracts db.json --pk=doi --alter
         sqlite-utils enable-counts ash-db/abstracts_full.db
         sqlite-utils enable-fts ash-db/abstracts_full.db abstracts article_title abstract_text author_names author_affiliations
         sqlite-utils optimize ash-db/abstracts_full.db
