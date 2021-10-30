@@ -42,8 +42,6 @@ jobs:
         pip install sqlite-utils
     - name: Make db json
       run: |-
-        git config --global user.name "db bot"       
-        git config --global user.email "actions@users.noreply.github.com"
         find ash-files/doi_json -maxdepth 1 -type f -name \*.json -exec cat {} + | jq -s . > db.json
     - name: Make full db
       run: |-
@@ -53,7 +51,7 @@ jobs:
         sqlite-utils optimize ash-db/abstracts_full.db
     - name: Make db without abstract text
       run: |-
-        jq 'map(del(.abstract_text))' db.json > db.json
+        jq 'del(.[] .abstract_text)' db.json > db.json
         sqlite-utils insert ash-db/abstracts.db abstracts db.json --pk=doi --alter
         sqlite-utils enable-counts ash-db/abstracts.db
         sqlite-utils enable-fts ash-db/abstracts.db abstracts article_title author_names author_affiliations
@@ -77,6 +75,8 @@ jobs:
         echo "Release last updated: ${timestamp} . " > README.md
         echo "" >> README.md
         echo "Available [here](https://github.com/cbeauhilton/ash-db/releases)." >> README.md
+        git config --global user.name "db bot"       
+        git config --global user.email "actions@users.noreply.github.com"
         git remote prune origin
         git add README.md
         git commit --amend --no-edit
