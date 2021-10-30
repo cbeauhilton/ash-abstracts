@@ -49,7 +49,7 @@ jobs:
         sqlite-utils enable-counts ash-db/abstracts_full.db
         sqlite-utils enable-fts ash-db/abstracts_full.db abstracts article_title abstract_text author_names author_affiliations
         sqlite-utils optimize ash-db/abstracts_full.db
-        jq 'del(.abstract_text)' db.json > db.json
+        jq 'map(del(.abstract_text))' db.json > db.json
         sqlite-utils insert ash-db/abstracts.db abstracts db.json --pk=doi --alter
         sqlite-utils enable-counts ash-db/abstracts.db
         sqlite-utils enable-fts ash-db/abstracts.db abstracts article_title author_names author_affiliations
