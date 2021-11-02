@@ -42,7 +42,7 @@ jobs:
         NOW_TOKEN: ${{ secrets.NOW_TOKEN }}
       run: |-
         datasette publish vercel abstracts.db \
-          --setting default_page_size 300 \
+          --setting default_page_size 10 \
           --token $NOW_TOKEN \
           --project ash-abstracts \
           --static static:static \
