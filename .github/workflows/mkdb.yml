@@ -59,15 +59,6 @@ jobs:
       run: |-
         sqlite-utils ash-db/abstracts_full.db "SELECT * from abstracts WHERE is_scraped=0" | sqlite-utils insert ash-db/unscraped.db unscraped - --pk=doi
         sqlite-utils enable-counts ash-db/unscraped.db
-    - name: Echo current db info
-      run: |-
-        cd ash-db
-        echo ""
-        echo "Current number of items in db:"
-        sqlite-utils abstracts_full.db "SELECT count(*) from abstracts"
-        echo ""
-        echo "Current number of scraped items in db:"
-        sqlite-utils abstracts_full.db "SELECT count(*) from abstracts WHERE is_scraped = 1"
     - name: Update readme
       run: |-
         cd ash-db
