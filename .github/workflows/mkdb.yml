@@ -57,7 +57,7 @@ jobs:
         sqlite-utils optimize ash-db/abstracts.db
     - name: Make db for scraping
       run: |-
-        sqlite-utils ash-db/abstracts_full.db "SELECT * from abstracts WHERE is_scraped=0" | sqlite-utils insert ash-db/unscraped.db unscraped - --pk=doi
+        sqlite-utils ash-db/abstracts_full.db "SELECT * from abstracts WHERE is_scraped=0" | sqlite-utils insert ash-db/unscraped.db unscraped - --pk=doi --alter
         sqlite-utils enable-counts ash-db/unscraped.db
     - name: Update readme
       run: |-
