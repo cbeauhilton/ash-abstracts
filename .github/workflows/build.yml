@@ -50,3 +50,24 @@ jobs:
           --install datasette-json-html \
           --install datasette-cluster-map \
           --public
+    - name: Download scraping database
+      run: curl --fail -OL https://github.com/cbeauhilton/ash-db/releases/download/database/unscraped.db
+    - name: Soundness check
+      run: |-
+        datasette unscraped.db --get / | grep "unscraped"
+    - name: Replace metadata.json
+      # Vercel does not yet support Python >3.6, which is req by remote-metadata
+      run: cat remote-metadata.yaml > metadata.yaml
+    - name: Deploy Datasette using Vercel
+      env:
+        NOW_TOKEN: ${{ secrets.NOW_TOKEN }}
+      run: |-
+        datasette publish vercel unscraped.db \
+          --setting default_page_size 500 \
+          --token $NOW_TOKEN \
+          --project ash-unscraped \
+          --static static:static \
+          --metadata metadata.yaml \
+          --install datasette-json-html \
+          --install datasette-cluster-map \
+          --public
