@@ -51,7 +51,7 @@ jobs:
         sqlite-utils optimize ash-db/abstracts_full.db
     - name: Make smaller db for Vercel
       run: |-
-        sqlite-utils ash-db/abstracts_full.db "SELECT doi, article_title, article_date, session_type, topics, author_names, author_affiliations, first_author_latitude, first_author_longitude from abstracts WHERE is_scraped=1 LIMIT 10000" | sqlite-utils insert ash-db/abstracts.db abstracts - --pk=doi
+        sqlite-utils ash-db/abstracts_full.db "SELECT doi, article_title, article_date, session_type, topics, author_names, author_affiliations, first_author_latitude, first_author_longitude from abstracts WHERE is_scraped=1 LIMIT 30000" | sqlite-utils insert ash-db/abstracts.db abstracts - --pk=doi
         sqlite-utils enable-counts ash-db/abstracts.db
         sqlite-utils enable-fts ash-db/abstracts.db abstracts article_title author_names author_affiliations
         sqlite-utils optimize ash-db/abstracts.db
