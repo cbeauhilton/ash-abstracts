@@ -49,33 +49,37 @@ jobs:
         sqlite-utils enable-counts ash-db/abstracts_full.db
         sqlite-utils enable-fts ash-db/abstracts_full.db abstracts article_title abstract_text author_names author_affiliations
         sqlite-utils optimize ash-db/abstracts_full.db
-    - name: Make db without abstract text
+    - name: Make smaller db for Vercel
       run: |-
-        jq 'del(.[] .abstract_text)' db.json > db1.json
-        sqlite-utils insert ash-db/abstracts.db abstracts db1.json --pk=doi --alter
+        sqlite-utils ash-db/abstracts_full.db "SELECT * from abstracts LIMIT 5000" | sqlite-utils insert ash-db/abstracts.db abstracts - --pk=doi
         sqlite-utils enable-counts ash-db/abstracts.db
-        sqlite-utils enable-fts ash-db/abstracts.db abstracts article_title author_names author_affiliations
+        sqlite-utils enable-fts ash-db/abstracts.db abstracts article_title abstract_text author_names author_affiliations
         sqlite-utils optimize ash-db/abstracts.db
+    - name: Make db for scraping
+      run: |-
+        sqlite-utils ash-db/abstracts_full.db "SELECT * from abstracts WHERE is_scraped=0" | sqlite-utils insert ash-db/unscraped.db unscraped - --pk=doi
+        sqlite-utils enable-counts ash-db/unscraped.db
     - name: Echo current db info
       run: |-
         cd ash-db
         echo ""
         echo "Current number of items in db:"
-        sqlite-utils abstracts.db "SELECT count(*) from abstracts"
+        sqlite-utils abstracts_full.db "SELECT count(*) from abstracts"
         echo ""
         echo "Current number of scraped items in db:"
-        sqlite-utils abstracts.db "SELECT count(*) from abstracts WHERE is_scraped = 1"
-        echo ""
-        echo "Current start url page number:"
-        sqlite-utils abstracts.db "SELECT MAX(start_url_page_num) from abstracts"
+        sqlite-utils abstracts_full.db "SELECT count(*) from abstracts WHERE is_scraped = 1"
     - name: Update readme
       run: |-
         cd ash-db
         timestamp=$(date -u)
-        echo "Release last updated: ${timestamp} . " > README.md
+        echo "Databases last updated: ${timestamp}. " > README.md
         echo "" >> README.md
         echo "Available [here](https://github.com/cbeauhilton/ash-db/releases)." >> README.md
+        echo "" >> README.md
+        du -h unscraped.db >> README.md
+        echo "" >> README.md
         du -h abstracts.db >> README.md
+        echo "" >> README.md
         du -h abstracts_full.db >> README.md
         git config --global user.name "db bot"       
         git config --global user.email "actions@users.noreply.github.com"
@@ -90,5 +94,6 @@ jobs:
         token: ${{ secrets.PERSONAL_ACCESS_TOKEN_FOR_PUSH }}
         tag_name: "database"
         files: |
-          ash-db/abstracts.db
           ash-db/abstracts_full.db
+          ash-db/abstracts.db
+          ash-db/unscraped.db
