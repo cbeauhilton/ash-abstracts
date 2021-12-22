@@ -52,7 +52,7 @@ jobs:
       if: |-
         !contains(github.event.head_commit.message, 'CLEAN_DOI') && contains(github.event.head_commit.message, 'DOI') || github.event_name == 'schedule'
       run: |-
-        curl --fail -OL https://github.com/cbeauhilton/ash-db/releases/download/newDB/abstracts.db
+        curl --fail -OL https://github.com/cbeauhilton/ash-db/releases/download/database/abstracts.db
         echo " " > .gitignore
         cd scrape_ash/scrape_ash/
         cat gha_settings.py > settings.py
