@@ -34,11 +34,11 @@ def remove_intr_by(string: str) -> str:
 
 class AbstractSpider(scrapy.Spider):
     name = "abstracts"
-    custom_settings = {
-            "ITEM_PIPELINES" : {
-    "scrape_ash.pipelines.AbstractPipeline": 300,
-            }
-        }
+    # custom_settings = {
+    #         "ITEM_PIPELINES" : {
+    # "scrape_ash.pipelines.AbstractPipeline": 300,
+    #         }
+    #     }
 
     allowed_domains = ["ashpublications.org", "doi.org"]
 
@@ -60,34 +60,57 @@ class AbstractSpider(scrapy.Spider):
         l.add_css("topics", "div.content-metadata-topics a::text")
         l.add_css("author_names", "a.linked-name ::text")
 
-        authors = response.css("div.info-card-author")
-        author_affiliation_list = []
-        for author in authors:
-            authors_affils = author.css("div.aff::text").getall()
+        author_dict_list = []
+        authors = response.css("div.al-author-name")
+
+        for i, author in enumerate(authors):
+
+            author_name = author.css("div.info-card-name::text").get().strip()
+
+            first_author = 0
+            last_author = 0
+            if i == 0:
+                first_author = 1
+            if i + 1 == len(authors):
+                last_author = 1
+
+            author_affils = author.css("div.aff::text").getall()
             # clean out the "(Intr. by)" nonsense
-            authors_affils = [remove_intr_by(a) for a in authors_affils]
+            author_affils = [remove_intr_by(a) for a in author_affils]
             # if that resulted in an empty string, remove it
-            authors_affils = list(filter(None, authors_affils))
-            author_affiliation_list.append(authors_affils)
-        l.add_value("author_affiliations", author_affiliation_list)
+            author_affils = list(filter(None, author_affils))
 
-        first_author_affiliation = author_affiliation_list[0]
-        # handle getting the first affiliation if author has multiple affiliations
-        if isinstance(first_author_affiliation, list):
-            if first_author_affiliation:
-                first_author_affiliation = first_author_affiliation[0]
-            else:
-                first_author_affiliation = None
+            author_dict = {
+                "author_name": author_name,
+                "author_affiliations": author_affils,
+                "author_rank": i + 1,
+                "first_author": first_author,
+                "last_author": last_author,
+            }
 
-        if first_author_affiliation:
-            lat, lon = google_lat_lon(first_author_affiliation)
-        else:
-            lat = None
-            lon = None
+            author_dict_list.append(author_dict)
 
-        l.add_value("first_author_latitude", lat)
-        l.add_value("first_author_longitude", lon)
+        l.add_value("author_dict_list", author_dict_list)
+
+        #         first_author_affiliation = author_affiliation_list[0]
+        #         # handle getting the first affiliation if author has multiple affiliations
+        #         if isinstance(first_author_affiliation, list):
+        #             if first_author_affiliation:
+        #                 first_author_affiliation = first_author_affiliation[0]
+        #             else:
+        #                 first_author_affiliation = None
+
+        #         if first_author_affiliation:
+        #             lat, lon = google_lat_lon(first_author_affiliation)
+        #         else:
+        #             lat = None
+        #             lon = None
+
+        #         l.add_value("first_author_latitude", lat)
+        #         l.add_value("first_author_longitude", lon)
+
         l.add_value("is_scraped", "1")
+        print(l.load_item())
 
         mk_abstract_json(dict(l.load_item()))
 
