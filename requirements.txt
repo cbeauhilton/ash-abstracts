@@ -1,5 +1,4 @@
-CacheControl
-cachy
+black
 cleo
 datasette-cluster-map
 dateparser
@@ -11,16 +10,11 @@ openpyxl
 pandas
 pexpect
 pkginfo
-priority
-PySocks
 pytest
 pytzdata
 requests-html
 requests-toolbelt
 reverse-geocode
 Scrapy
-shellingham
 sqlite-utils
-stem
-tomlkit
 xlrd

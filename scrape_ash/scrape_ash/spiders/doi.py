@@ -38,7 +38,6 @@ class DOISpider(scrapy.Spider):
 
             search_url = response.url
             il.add_value("search_url", search_url)
-            # il.add_value("search_url_page_num", search_url.split("page=", 1)[1])
 
             il.add_css("doi", "div.citation-label a::attr(href)")
 
@@ -48,15 +47,13 @@ class DOISpider(scrapy.Spider):
             datetime_link_obtained = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
             il.add_value("datetime_link_obtained", datetime_link_obtained)
 
-            print("\n\n\n")
-            print(il.load_item())
-            print("\n\n\n")
+            il.add_value("is_scraped", "0")
 
-        exit()
+            payload = il.load_item()
+            mk_doi_json(dict(payload))
 
-        # for link in response.css("div.citation-label a::attr(href)"):
-            # doi_link = link.get()
-            # mk_doi_json(doi_link=doi_link, response=response)
+            yield payload
+
 
         next_page = (
             "search-results?" + response.css("a.sr-nav-next::attr(data-url)").get()

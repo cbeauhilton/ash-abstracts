@@ -40,10 +40,11 @@ class ScrapeAshItem(scrapy.Item):
 class ScrapeAshLink(scrapy.Item):
 
     search_url = scrapy.Field(output_processor=Join())
-    search_url_page_num = scrapy.Field(output_processor=Join())
 
     doi = scrapy.Field(output_processor=Join())
 
     url = scrapy.Field(output_processor=Join())
 
     datetime_link_obtained = scrapy.Field(output_processor=Join())
+
+    is_scraped = scrapy.Field(output_processor=Join())

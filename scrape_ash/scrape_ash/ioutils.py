@@ -5,7 +5,6 @@ from pathlib import Path
 from urllib.parse import quote_plus, urlparse
 
 import requests
-from scrapy.http import Response
 
 doi_json_path = "data/doi_json"
 
@@ -32,22 +31,16 @@ def get_start_url_page():
     return start_url_page
 
 
-def mk_doi_json(doi_link: str, response: Response, doi_json_path: str = doi_json_path):
-    d = {}
-    d["doi"] = doi_link
-    d["start_url"] = response.request.url
-    d["start_url_page_num"] = int(d["start_url"].split("page=", 1)[1])
-    d["is_scraped"] = 0
-
+def mk_doi_json(payload: dict, doi_json_path: str = doi_json_path):
     p = doi_json_path
     Path(p).mkdir(parents=True, exist_ok=True)
 
-    fname = doi_json_fname(doi_link=doi_link)
+    fname = doi_json_fname(doi_link=payload["doi"])
 
     with open(f"{p}/{fname}.json", "w") as f:
-        json.dump(d, f, indent=4)
+        json.dump(payload, f, indent=4)
 
-    return d
+    return payload
 
 
 def get_unscraped():
@@ -68,6 +61,7 @@ def get_unscraped():
 
 
 def get_doi_dict(doi: str):
+    d = None
     with open("unscraped.json", "r") as f:
         doi_dict_list = json.load(f)
     for doi_dict in doi_dict_list:

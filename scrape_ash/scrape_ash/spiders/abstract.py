@@ -34,6 +34,12 @@ def remove_intr_by(string: str) -> str:
 
 class AbstractSpider(scrapy.Spider):
     name = "abstracts"
+    custom_settings = {
+            "ITEM_PIPELINES" : {
+    "scrape_ash.pipelines.AbstractPipeline": 300,
+            }
+        }
+
     allowed_domains = ["ashpublications.org", "doi.org"]
 
     def start_requests(self):
