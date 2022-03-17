@@ -1,30 +1,11 @@
 import re
 
 import scrapy
-from requests_html import HTMLSession
 from scrapy.http.request import Request
 from scrapy.loader import ItemLoader
 
 from ..ioutils import get_unscraped, mk_abstract_json
 from ..items import ScrapeAshItem
-
-session = HTMLSession()
-
-
-def google_lat_lon(query: str):
-
-    url = "https://www.google.com/maps/search/?api=1"
-    params = {}
-    params["query"] = query
-
-    r = session.get(url, params=params)
-
-    reg = "APP_INITIALIZATION_STATE=[[[{}]"
-    res = r.html.search(reg)[0]
-    lat = res.split(",")[2]
-    lon = res.split(",")[1]
-
-    return lat, lon
 
 
 def remove_intr_by(string: str) -> str:
@@ -34,6 +15,7 @@ def remove_intr_by(string: str) -> str:
 
 class AbstractSpider(scrapy.Spider):
     name = "abstracts"
+
     # custom_settings = {
     #         "ITEM_PIPELINES" : {
     # "scrape_ash.pipelines.AbstractPipeline": 300,
@@ -91,27 +73,10 @@ class AbstractSpider(scrapy.Spider):
             author_dict_list.append(author_dict)
 
         l.add_value("author_dict_list", author_dict_list)
-
-        #         first_author_affiliation = author_affiliation_list[0]
-        #         # handle getting the first affiliation if author has multiple affiliations
-        #         if isinstance(first_author_affiliation, list):
-        #             if first_author_affiliation:
-        #                 first_author_affiliation = first_author_affiliation[0]
-        #             else:
-        #                 first_author_affiliation = None
-
-        #         if first_author_affiliation:
-        #             lat, lon = google_lat_lon(first_author_affiliation)
-        #         else:
-        #             lat = None
-        #             lon = None
-
-        #         l.add_value("first_author_latitude", lat)
-        #         l.add_value("first_author_longitude", lon)
-
         l.add_value("is_scraped", "1")
-        print(l.load_item())
 
-        mk_abstract_json(dict(l.load_item()))
+        abstract_object = l.load_item()
 
-        yield l.load_item()
+        mk_abstract_json(abstract_object)
+
+        yield abstract_object
