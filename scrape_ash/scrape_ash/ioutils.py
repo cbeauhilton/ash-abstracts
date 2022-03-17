@@ -6,7 +6,7 @@ from urllib.parse import quote_plus, urlparse
 
 import requests
 
-doi_json_path = "data/doi_json"
+DOI_JSON_PATH = "data/doi_json"
 
 
 def doi_json_fname(doi_link: str):
@@ -22,7 +22,7 @@ def doi_json_fname(doi_link: str):
 
 
 def get_start_url_page():
-    start_url_page = os.getenv("START_URL_PAGE_NUM")
+    start_url_page = os.getenv("START_URL_PAGE_NUM") # created in scrapeDOI.yml
     if start_url_page:
         start_url_page = int(start_url_page)
     else:
@@ -31,7 +31,7 @@ def get_start_url_page():
     return start_url_page
 
 
-def mk_doi_json(payload: dict, doi_json_path: str = doi_json_path):
+def mk_doi_json(payload: dict, doi_json_path: str = DOI_JSON_PATH):
     p = doi_json_path
     Path(p).mkdir(parents=True, exist_ok=True)
 
@@ -72,10 +72,10 @@ def get_doi_dict(doi: str):
     return d
 
 
-def mk_abstract_json(abstract_dict: dict, doi_json_path: str = doi_json_path):
+def mk_abstract_json(abstract_dict: dict, DOI_JSON_PATH: str = DOI_JSON_PATH):
     doi = abstract_dict["doi"]
 
-    p = doi_json_path
+    p = DOI_JSON_PATH
     fname = doi_json_fname(doi_link=doi)
     f_path = f"{p}/{fname}.json"
 

@@ -14,9 +14,10 @@ class DOISpider(scrapy.Spider):
         search_url = "https://ashpublications.org/blood/search-results"
         search_string = "?sort=Date+-+Oldest+First&f_ArticleTypeDisplayName=Meeting+Report&fl_SiteID=1000001&page="
         start_url_page = get_start_url_page()
+        start_url_page = 1
 
         # the last page last scraped might not be full,
-        # so go one page to make sure
+        # so go back one page to make sure
         # we're not missing any new items
 
         if start_url_page > 5:
