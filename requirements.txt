@@ -1,5 +1,4 @@
 black
-cleo
 datasette-cluster-map
 dateparser
 html5lib
