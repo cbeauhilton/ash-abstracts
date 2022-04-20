@@ -1,6 +1,5 @@
 import random
 import json
-import os
 from urllib.parse import quote_plus, urlparse
 
 import requests
