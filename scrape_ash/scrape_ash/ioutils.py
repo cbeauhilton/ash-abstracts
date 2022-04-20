@@ -5,8 +5,6 @@ from urllib.parse import quote_plus, urlparse
 
 import requests
 
-DOI_JSON_PATH = "data/doi_json"
-
 
 def doi_json_fname(doi_link: str):
     url_path = urlparse(doi_link).path
@@ -18,17 +16,6 @@ def doi_json_fname(doi_link: str):
     fname = quote_plus(url_path)
 
     return fname
-
-
-def get_start_url_page():
-    start_url_page = os.getenv("START_URL_PAGE_NUM") # created in scrapeDOI.yml
-    if start_url_page:
-        start_url_page = int(start_url_page)
-    else:
-        start_url_page = 1
-
-    return start_url_page
-
 
 
 def get_unscraped():
@@ -58,20 +45,3 @@ def get_doi_dict(doi: str):
             d = doi_dict
 
     return d
-
-
-def mk_abstract_json(abstract_dict: dict, DOI_JSON_PATH: str = DOI_JSON_PATH):
-    doi = abstract_dict["doi"]
-
-    p = DOI_JSON_PATH
-    fname = doi_json_fname(doi_link=doi)
-    f_path = f"{p}/{fname}.json"
-
-    doi_dict = get_doi_dict(doi)
-
-    abstract_dict = doi_dict | abstract_dict
-
-    with open(f_path, "w") as f:
-        json.dump(abstract_dict, f, indent=4)
-
-    return abstract_dict

@@ -5,7 +5,6 @@ import datetime
 from sqlite_utils import Database
 import sqlite3
 
-from ..ioutils import get_start_url_page
 from ..items import ScrapeAshURL
 from ..pipelines import URLS_DB_PATH, URLS_TABLE_NAME
 
@@ -16,7 +15,6 @@ class DOISpider(scrapy.Spider):
     def start_requests(self):
         search_url = "https://ashpublications.org/blood/search-results"
         search_string = "?sort=Date+-+Oldest+First&f_ArticleTypeDisplayName=Meeting+Report&fl_SiteID=1000001&page="
-        start_url_page = get_start_url_page()
         try:
             db = Database(URLS_DB_PATH)
             q = db.execute(f"select MAX(start_url_page_num) from {URLS_TABLE_NAME}").fetchall() 

@@ -12,3 +12,8 @@ CLOSESPIDER_PAGECOUNT = 200 # limit number of scraped pages per crawl
 CLOSESPIDER_ITEMCOUNT = 300 # limit number of scraped items per crawl
 
 DUPEFILTER_DEBUG = True
+
+ITEM_PIPELINES = {
+    'scrape_ash.pipelines.JsonWriterPipeline': 100,
+    'scrape_ash.pipelines.SQLitePipeline': 200,
+}
