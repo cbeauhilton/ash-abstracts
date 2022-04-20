@@ -2,9 +2,12 @@ import scrapy
 from scrapy.loader import ItemLoader
 from scrapy.http.request import Request
 import datetime
+from sqlite_utils import Database
+import sqlite3
 
-from ..ioutils import get_start_url_page, mk_doi_json
-from ..items import ScrapeAshLink
+from ..ioutils import get_start_url_page
+from ..items import ScrapeAshURL
+from ..pipelines import URLS_DB_PATH, URLS_TABLE_NAME
 
 class DOISpider(scrapy.Spider):
     name = "dois"
@@ -14,13 +17,18 @@ class DOISpider(scrapy.Spider):
         search_url = "https://ashpublications.org/blood/search-results"
         search_string = "?sort=Date+-+Oldest+First&f_ArticleTypeDisplayName=Meeting+Report&fl_SiteID=1000001&page="
         start_url_page = get_start_url_page()
-        start_url_page = 1
+        try:
+            db = Database(URLS_DB_PATH)
+            q = db.execute(f"select MAX(start_url_page_num) from {URLS_TABLE_NAME}").fetchall() 
+            start_url_page = int(q[0][0]) # execute command returns a list of tuples of strings
+        except sqlite3.OperationalError:
+            start_url_page = 1
 
         # the last page last scraped might not be full,
         # so go back one page to make sure
         # we're not missing any new items
 
-        if start_url_page > 5:
+        if start_url_page > 4000:
             start_url_page = start_url_page - 1
             print(f"Starting scraping at page {start_url_page}.")
 
@@ -35,23 +43,21 @@ class DOISpider(scrapy.Spider):
 
         for link in link_selection:
 
-            il = ItemLoader(item=ScrapeAshLink(), selector=link)
+            il = ItemLoader(item=ScrapeAshURL(), selector=link)
 
             search_url = response.url
-            il.add_value("search_url", search_url)
-
-            il.add_css("doi", "div.citation-label a::attr(href)")
-
+            start_url_page_num =  search_url.split("page=", 1)[1]
             url = response.urljoin(link.css("div.sri-title.customLink.al-title a::attr(href)").get())
-            il.add_value("url", url)
-
             datetime_link_obtained = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
-            il.add_value("datetime_link_obtained", datetime_link_obtained)
 
+            il.add_value("search_url", search_url)
+            il.add_value("start_url_page_num", start_url_page_num)
+            il.add_css("doi", "div.citation-label a::attr(href)")
+            il.add_value("url", url)
+            il.add_value("datetime_link_obtained", datetime_link_obtained)
             il.add_value("is_scraped", "0")
 
             payload = il.load_item()
-            mk_doi_json(dict(payload))
 
             yield payload
 

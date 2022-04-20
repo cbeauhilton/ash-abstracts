@@ -11,3 +11,8 @@ CONCURRENT_REQUESTS = 2  # don't get kicked out! Default 16.
 CLOSESPIDER_PAGECOUNT = 2 # limit number of scraped pages per crawl
 
 DUPEFILTER_DEBUG = True
+
+ITEM_PIPELINES = {
+    'scrape_ash.pipelines.JsonWriterPipeline': 100,
+    'scrape_ash.pipelines.SQLitePipeline': 200,
+}

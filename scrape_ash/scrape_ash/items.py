@@ -6,7 +6,6 @@ from w3lib.html import remove_tags
 class ScrapeAshItem(scrapy.Item):
 
     doi = scrapy.Field(output_processor=Join())
-    link = scrapy.Field(output_processor=Join())
 
     article_title = scrapy.Field(
         input_processor=MapCompose(remove_tags, str.strip), output_processor=Join()
@@ -28,20 +27,16 @@ class ScrapeAshItem(scrapy.Item):
 
     author_names = scrapy.Field(input_processor=MapCompose(remove_tags, str.strip))
 
-    author_affiliations = scrapy.Field()
-
     author_dict_list = scrapy.Field()
-
-    first_author_latitude = scrapy.Field(output_processor=Join())
-
-    first_author_longitude = scrapy.Field(output_processor=Join())
 
     is_scraped = scrapy.Field(output_processor=Join())
 
 
-class ScrapeAshLink(scrapy.Item):
+class ScrapeAshURL(scrapy.Item):
 
     search_url = scrapy.Field(output_processor=Join())
+
+    start_url_page_num = scrapy.Field(output_processor=Join())
 
     doi = scrapy.Field(output_processor=Join())
 

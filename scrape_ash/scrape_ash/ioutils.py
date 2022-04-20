@@ -1,7 +1,6 @@
 import random
 import json
 import os
-from pathlib import Path
 from urllib.parse import quote_plus, urlparse
 
 import requests
@@ -30,17 +29,6 @@ def get_start_url_page():
 
     return start_url_page
 
-
-def mk_doi_json(payload: dict, doi_json_path: str = DOI_JSON_PATH):
-    p = doi_json_path
-    Path(p).mkdir(parents=True, exist_ok=True)
-
-    fname = doi_json_fname(doi_link=payload["doi"])
-
-    with open(f"{p}/{fname}.json", "w") as f:
-        json.dump(payload, f, indent=4)
-
-    return payload
 
 
 def get_unscraped():

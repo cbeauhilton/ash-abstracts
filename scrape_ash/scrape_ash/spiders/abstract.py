@@ -3,9 +3,10 @@ import re
 import scrapy
 from scrapy.http.request import Request
 from scrapy.loader import ItemLoader
+from sqlite_utils import Database
 
-from ..ioutils import get_unscraped, mk_abstract_json
 from ..items import ScrapeAshItem
+from ..pipelines import URLS_DB_PATH, URLS_TABLE_NAME
 
 
 def remove_intr_by(string: str) -> str:
@@ -16,17 +17,12 @@ def remove_intr_by(string: str) -> str:
 class AbstractSpider(scrapy.Spider):
     name = "abstracts"
 
-    # custom_settings = {
-    #         "ITEM_PIPELINES" : {
-    # "scrape_ash.pipelines.AbstractPipeline": 300,
-    #         }
-    #     }
-
     allowed_domains = ["ashpublications.org", "doi.org"]
 
     def start_requests(self):
-
-        start_urls = get_unscraped()
+        db = Database(URLS_DB_PATH)
+        q = db.execute(f"select url from {URLS_TABLE_NAME} where is_scraped = ?", "0").fetchall() 
+        start_urls = [x[0] for x in q]
 
         for url in start_urls:
             yield Request(url, self.parse)
@@ -34,13 +30,6 @@ class AbstractSpider(scrapy.Spider):
     def parse(self, response):
         l = ItemLoader(item=ScrapeAshItem(), response=response)
 
-        l.add_css("doi", "div.citation-doi a::attr(href)")
-        l.add_css("article_title", "h1.wi-article-title.article-title-main ::text")
-        l.add_css("article_date", "span.article-date")
-        l.add_css("session_type", "span.article-client_type")
-        l.add_css("abstract_text", "section.abstract ::text")
-        l.add_css("topics", "div.content-metadata-topics a::text")
-        l.add_css("author_names", "a.linked-name ::text")
 
         author_dict_list = []
         authors = response.css("div.al-author-name")
@@ -72,11 +61,16 @@ class AbstractSpider(scrapy.Spider):
 
             author_dict_list.append(author_dict)
 
+        l.add_css("doi", "div.citation-doi a::attr(href)")
+        l.add_css("article_title", "h1.wi-article-title.article-title-main ::text")
+        l.add_css("article_date", "span.article-date")
+        l.add_css("session_type", "span.article-client_type")
+        l.add_css("abstract_text", "section.abstract ::text")
+        l.add_css("topics", "div.content-metadata-topics a::text")
+        l.add_css("author_names", "a.linked-name ::text")
         l.add_value("author_dict_list", author_dict_list)
         l.add_value("is_scraped", "1")
 
         abstract_object = l.load_item()
-
-        mk_abstract_json(abstract_object)
 
         yield abstract_object
