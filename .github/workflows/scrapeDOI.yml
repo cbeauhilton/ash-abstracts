@@ -43,7 +43,7 @@ jobs:
     - name: Download databases
       run: |
         cd scrape_ash/scrape_ash/data/
-        curl --fail -OL https://github.com/cbeauhilton/ash-db/releases/download/database/urls.db
+        curl -OL https://github.com/cbeauhilton/ash-db/releases/download/database/urls.db
         continue-on-error: true
     - name: Scrape DOI
       id: scrape
