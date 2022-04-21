@@ -35,18 +35,18 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r scraping-requirements.txt
     - name: Make sure data directories exist
-      run: |
+      run: |-
         cd scrape_ash/scrape_ash/
         mkdir -p data
         mkdir -p data/doi_json
         mkdir -p ash-files/doi_json
     - name: Download url database
-      run: |
+      run: |-
         cd scrape_ash/scrape_ash/data/
         curl --fail -OL https://github.com/cbeauhilton/ash-db/releases/download/database/urls.db
         continue-on-error: true
     - name: Download abstract database
-      run: |
+      run: |-
         cd scrape_ash/scrape_ash/data/
         curl --fail -OL https://github.com/cbeauhilton/ash-db/releases/download/database/abstracts.db
         continue-on-error: true
