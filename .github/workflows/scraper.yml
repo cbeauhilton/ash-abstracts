@@ -23,7 +23,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    if: contains(github.event.head_commit.message, ${{inputs.commit_message}}) || (github.event_name == 'schedule')
+    if: contains(github.event.head_commit.message, "${{inputs.commit_message}}") || (github.event_name == 'schedule')
     steps:
     - name: Checkout this repo
       uses: actions/checkout@v2
