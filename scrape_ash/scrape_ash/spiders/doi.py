@@ -17,7 +17,7 @@ class DOISpider(scrapy.Spider):
         search_string = "?sort=Date+-+Oldest+First&f_ArticleTypeDisplayName=Meeting+Report&fl_SiteID=1000001&page="
         try:
             db = Database(URLS_DB_PATH)
-            q = db.execute(f"select MAX(start_url_page_num) from {URLS_TABLE_NAME}").fetchall() 
+            q = db.execute(f"select MAX(CAST(start_url_page_num AS int)) from {URLS_TABLE_NAME}").fetchall() 
             start_url_page = int(q[0][0]) # execute command returns a list of tuples of strings
         except sqlite3.OperationalError:
             start_url_page = 1
@@ -28,9 +28,6 @@ class DOISpider(scrapy.Spider):
 
         if start_url_page > 4000:
             start_url_page = start_url_page - 1
-
-        print("\n"*3)
-        print(f"Starting scraping at page {start_url_page}.")
 
         start_urls = [f"{search_url}{search_string}{start_url_page}"]
         for url in start_urls:
@@ -46,6 +43,8 @@ class DOISpider(scrapy.Spider):
             il = ItemLoader(item=ScrapeAshURL(), selector=link)
 
             search_url = response.url
+            x = search_url.split("page=", 1)
+            print(x)
             start_url_page_num =  search_url.split("page=", 1)[1]
             url = response.urljoin(link.css("div.sri-title.customLink.al-title a::attr(href)").get())
             datetime_link_obtained = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
