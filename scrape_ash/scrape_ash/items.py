@@ -29,6 +29,8 @@ class ScrapeAshItem(scrapy.Item):
 
     author_dict_list = scrapy.Field()
 
+    datetime_abstract_obtained = scrapy.Field(output_processor=Join())
+
     is_scraped = scrapy.Field(output_processor=Join())
 
 

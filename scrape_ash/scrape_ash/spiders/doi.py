@@ -29,6 +29,9 @@ class DOISpider(scrapy.Spider):
         if start_url_page > 4000:
             start_url_page = start_url_page - 1
 
+        if start_url_page < 1:
+            start_url_page = 1
+
         start_urls = [f"{search_url}{search_string}{start_url_page}"]
         for url in start_urls:
             yield Request(url, self.parse)
@@ -43,8 +46,6 @@ class DOISpider(scrapy.Spider):
             il = ItemLoader(item=ScrapeAshURL(), selector=link)
 
             search_url = response.url
-            x = search_url.split("page=", 1)
-            print(x)
             start_url_page_num =  search_url.split("page=", 1)[1]
             url = response.urljoin(link.css("div.sri-title.customLink.al-title a::attr(href)").get())
             datetime_link_obtained = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
@@ -57,7 +58,6 @@ class DOISpider(scrapy.Spider):
             il.add_value("is_scraped", "0")
 
             payload = il.load_item()
-            print(search_url)
 
             yield payload
 

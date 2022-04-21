@@ -1,4 +1,5 @@
 import re
+import datetime
 
 import scrapy
 from scrapy.http.request import Request
@@ -60,6 +61,8 @@ class AbstractSpider(scrapy.Spider):
 
             author_dict_list.append(author_dict)
 
+        datetime_abstract_obtained = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
+
         l.add_css("doi", "div.citation-doi a::attr(href)")
         l.add_css("article_title", "h1.wi-article-title.article-title-main ::text")
         l.add_css("article_date", "span.article-date")
@@ -68,9 +71,9 @@ class AbstractSpider(scrapy.Spider):
         l.add_css("topics", "div.content-metadata-topics a::text")
         l.add_css("author_names", "a.linked-name ::text")
         l.add_value("author_dict_list", author_dict_list)
+        l.add_value("datetime_abstract_obtained", datetime_abstract_obtained)
         l.add_value("is_scraped", "1")
 
         abstract_object = l.load_item()
-        print(response.url)
 
         yield abstract_object
