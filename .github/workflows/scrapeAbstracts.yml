@@ -40,15 +40,15 @@ jobs:
         mkdir -p data
         mkdir -p data/doi_json
         mkdir -p ash-files/doi_json
-    - name: Download url database
-      run: |-
-        cd scrape_ash/scrape_ash/data/
-        curl --fail -OL https://github.com/cbeauhilton/ash-db/releases/download/database/urls.db
-        continue-on-error: true
     - name: Download abstract database
       run: |-
         cd scrape_ash/scrape_ash/data/
-        curl --fail -OL https://github.com/cbeauhilton/ash-db/releases/download/database/abstracts.db
+        curl --fail -O https://github.com/cbeauhilton/ash-db/releases/download/database/abstracts.db
+        continue-on-error: true
+    - name: Download url database
+      run: |-
+        cd scrape_ash/scrape_ash/data/
+        curl --fail -O https://github.com/cbeauhilton/ash-db/releases/download/database/urls.db
         continue-on-error: true
     - name: Scrape abstracts
       id: scrape
