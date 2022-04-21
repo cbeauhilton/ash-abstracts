@@ -51,7 +51,7 @@ jobs:
       run: |-
         cd scrape_ash/scrape_ash/
         echo "CLOSESPIDER_PAGECOUNT = 200" >> settings.py
-        echo "CLOSESPIDER_ITEMCOUNT = 300" >> settings.py
+        echo "CLOSESPIDER_ITEMCOUNT = 301" >> settings.py
         scrapy crawl dois
     - name: Commit scraped files
       if: steps.scrape.outcome == 'success'
