@@ -44,12 +44,12 @@ jobs:
     - name: Download url database
       run: |-
         cd scrape_ash/scrape_ash/data/
-        curl --fail -O https://github.com/cbeauhilton/ash-db/releases/download/database/urls.db
+        curl --fail -OL https://github.com/cbeauhilton/ash-db/releases/download/database/urls.db
         ls
     - name: Download abstract database
       run: |-
         cd scrape_ash/scrape_ash/data/
-        curl --fail -O https://github.com/cbeauhilton/ash-db/releases/download/database/abstracts.db
+        curl --fail -OL https://github.com/cbeauhilton/ash-db/releases/download/database/abstracts.db
       continue-on-error: true
     - name: Scrape abstracts
       id: scrape
