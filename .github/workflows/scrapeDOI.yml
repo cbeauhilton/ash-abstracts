@@ -10,6 +10,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    if: contains(github.event.head_commit.message, 'DOI') || github.event_name == 'schedule'
     steps:
     - name: Checkout this repo
       uses: actions/checkout@v2
@@ -47,7 +48,6 @@ jobs:
       continue-on-error: true
     - name: Scrape DOI
       id: scrape
-      if: contains(github.event.head_commit.message, 'DOI') || github.event_name == 'schedule'
       run: |-
         cd scrape_ash/scrape_ash/
         echo "CLOSESPIDER_PAGECOUNT = 200" >> settings.py
