@@ -1,16 +1,16 @@
-name: Scrape DOI
+name: Scrape abstracts
 
 on:
   push:
     branches:
     - main
   schedule:
-    - cron: '*/30 * * * *'
+    - cron: '59 */3 * * *'
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    if: contains(github.event.head_commit.message, 'DOI') || github.event_name == 'schedule'
+    if: contains(github.event.head_commit.message, 'ABSTRACT') || (github.event_name == 'schedule')
     steps:
     - name: Checkout this repo
       uses: actions/checkout@v2
@@ -36,7 +36,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r scraping-requirements.txt
     - name: Make sure data directories exist
-      run: |
+      run: |-
         cd scrape_ash/scrape_ash/
         mkdir -p data
         mkdir -p data/doi_json
@@ -51,13 +51,13 @@ jobs:
         cd scrape_ash/scrape_ash/data/
         curl --fail -OL https://github.com/cbeauhilton/ash-db/releases/download/database/abstracts.db
       continue-on-error: true
-    - name: Scrape dois
+    - name: Scrape abstracts
       id: scrape
       run: |-
         cd scrape_ash/scrape_ash/
         echo "CLOSESPIDER_PAGECOUNT = 200" >> settings.py
         echo "CLOSESPIDER_ITEMCOUNT = 300" >> settings.py
-        scrapy crawl dois
+        scrapy crawl abstracts
     - name: Commit scraped files
       if: steps.scrape.outcome == 'success'
       run: |-
@@ -65,11 +65,11 @@ jobs:
         cd scrape_ash/scrape_ash/
         cp data/doi_json/*.json ash-files/doi_json/
         cd ash-files
-        git config --global user.name "dois bot"       
+        git config --global user.name "abstract bot"       
         git config --global user.email "actions@users.noreply.github.com"
         git add -A
         timestamp=$(date -u)
-        git commit --allow-empty -m "Latest data: ${timestamp}"
+        git commit --allow-empty  -m "Latest data: ${timestamp}"
         git push
     - name: Upload to releases
       if: steps.scrape.outcome == 'success'
