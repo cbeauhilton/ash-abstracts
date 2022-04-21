@@ -61,13 +61,13 @@ class SQLitePipeline:
     def close_spider(self, spider):
         self.urls_db.enable_counts()
         self.abstracts_db.enable_counts() 
-        col_list = [*self.abstracts_db[self.abstracts_table_name].columns_dict]
-        unwanted_cols_list = ["search_url", "doi", "url", "datetime_link_obtained", "is_scraped", "start_url_page_num"]
-        fts_cols_list = [x for x in col_list if x not in unwanted_cols_list]
+        # col_list = [*self.abstracts_db[self.abstracts_table_name].columns_dict]
+        # unwanted_cols_list = ["search_url", "doi", "url", "datetime_link_obtained", "is_scraped", "start_url_page_num"]
+        # fts_cols_list = [x for x in col_list if x not in unwanted_cols_list]
         # print("\n"*10)
         # print(col_list)
         # print(unwanted_cols_list)
         # print(fts_cols_list)
         # print("\n"*10)
-        self.abstracts_db[self.abstracts_table_name].enable_fts(fts_cols_list, create_triggers=True) 
-        self.abstracts_db[self.abstracts_table_name].optimize() 
+        # self.abstracts_db[self.abstracts_table_name].enable_fts(fts_cols_list, create_triggers=True) 
+        # self.abstracts_db[self.abstracts_table_name].optimize() 
