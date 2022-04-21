@@ -51,10 +51,13 @@ class SQLitePipeline:
             db, table = self.abstracts_db, self.abstracts_table_name
 
         db[table].upsert(ItemAdapter(item).asdict(), pk="doi", alter=True)
+        print(db, table)
 
         if spider.name == "abstracts":
             db, table  = self.urls_db, self.urls_table_name
             db[table].update(ItemAdapter(item).asdict()["doi"], {"is_scraped": "1"} )
+            print(db, table)
+        print("\n"*3)
 
         return item
 

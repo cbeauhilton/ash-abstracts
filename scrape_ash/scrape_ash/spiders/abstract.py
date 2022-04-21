@@ -71,5 +71,6 @@ class AbstractSpider(scrapy.Spider):
         l.add_value("is_scraped", "1")
 
         abstract_object = l.load_item()
+        print(response.url)
 
         yield abstract_object

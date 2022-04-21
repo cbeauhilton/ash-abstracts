@@ -28,7 +28,9 @@ class DOISpider(scrapy.Spider):
 
         if start_url_page > 4000:
             start_url_page = start_url_page - 1
-            print(f"Starting scraping at page {start_url_page}.")
+
+        print("\n"*3)
+        print(f"Starting scraping at page {start_url_page}.")
 
         start_urls = [f"{search_url}{search_string}{start_url_page}"]
         for url in start_urls:
@@ -56,6 +58,7 @@ class DOISpider(scrapy.Spider):
             il.add_value("is_scraped", "0")
 
             payload = il.load_item()
+            print(search_url)
 
             yield payload
 
