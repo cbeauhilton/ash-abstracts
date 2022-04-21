@@ -30,7 +30,6 @@ class AbstractSpider(scrapy.Spider):
     def parse(self, response):
         l = ItemLoader(item=ScrapeAshItem(), response=response)
 
-
         author_dict_list = []
         authors = response.css("div.al-author-name")
 
