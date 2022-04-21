@@ -80,5 +80,5 @@ jobs:
         token: ${{ secrets.PERSONAL_ACCESS_TOKEN_FOR_PUSH }}
         tag_name: "database"
         files: |
-          scrape_ash/scrape_ash/urls.db
-          scrape_ash/scrape_ash/abstracts.db
+          scrape_ash/scrape_ash/data/urls.db
+          scrape_ash/scrape_ash/data/abstracts.db
