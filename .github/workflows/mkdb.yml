@@ -55,10 +55,6 @@ jobs:
         sqlite-utils enable-counts ash-db/abstracts.db
         sqlite-utils enable-fts ash-db/abstracts.db abstracts article_title author_names author_affiliations
         sqlite-utils optimize ash-db/abstracts.db
-    - name: Make db for scraping
-      run: |-
-        sqlite-utils ash-db/abstracts_full.db "SELECT * from abstracts WHERE is_scraped=0" | sqlite-utils insert ash-db/unscraped.db unscraped - --pk=doi --alter
-        sqlite-utils enable-counts ash-db/unscraped.db
     - name: Update readme
       run: |-
         cd ash-db
@@ -67,7 +63,6 @@ jobs:
         echo "" >> README.md
         echo "Available [here](https://github.com/cbeauhilton/ash-db/releases)." >> README.md
         echo "" >> README.md
-        du -h unscraped.db >> README.md
         echo "" >> README.md
         du -h abstracts.db >> README.md
         echo "" >> README.md
@@ -93,4 +88,3 @@ jobs:
         files: |
           ash-db/abstracts_full.db
           ash-db/abstracts.db
-          ash-db/unscraped.db
