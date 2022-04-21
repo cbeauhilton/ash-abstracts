@@ -41,10 +41,10 @@ jobs:
         mkdir -p data/doi_json
         mkdir -p ash-files/doi_json
     - name: Download databases
-      run: |
+      run: |-
         cd scrape_ash/scrape_ash/data/
-        curl -OL https://github.com/cbeauhilton/ash-db/releases/download/database/urls.db
-        continue-on-error: true
+        curl --fail -OL https://github.com/cbeauhilton/ash-db/releases/download/database/urls.db
+      continue-on-error: true
     - name: Scrape DOI
       id: scrape
       if: contains(github.event.head_commit.message, 'DOI') || github.event_name == 'schedule'
