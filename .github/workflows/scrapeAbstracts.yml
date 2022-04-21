@@ -45,6 +45,7 @@ jobs:
       run: |-
         cd scrape_ash/scrape_ash/data/
         curl --fail -O https://github.com/cbeauhilton/ash-db/releases/download/database/urls.db
+        ls
     - name: Download abstract database
       run: |-
         cd scrape_ash/scrape_ash/data/
@@ -52,7 +53,6 @@ jobs:
       continue-on-error: true
     - name: Scrape abstracts
       id: scrape
-      if: steps.dl.outcome == 'success'
       run: |-
         cd scrape_ash/scrape_ash/
         echo "CLOSESPIDER_PAGECOUNT = 200" >> settings.py
