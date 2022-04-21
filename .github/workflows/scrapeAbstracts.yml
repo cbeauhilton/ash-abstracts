@@ -11,7 +11,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout ash-abstracts
+    - name: Checkout this repo
       uses: actions/checkout@v2
     - name: Checkout ash-files
       uses: actions/checkout@v2
@@ -34,19 +34,31 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r scraping-requirements.txt
+    - name: Make sure data directories exist
+      run: |
+        cd scrape_ash/scrape_ash/
+        mkdir -p data
+        mkdir -p data/doi_json
+        mkdir -p ash-files/doi_json
+    - name: Download databases
+      run: |
+        cd scrape_ash/scrape_ash/data/
+        curl --fail -OL https://github.com/cbeauhilton/ash-db/releases/download/database/urls.db
+        curl --fail -OL https://github.com/cbeauhilton/ash-db/releases/download/database/abstracts.db
+        continue-on-error: true
     - name: Scrape abstracts
+      id: scrape
       if: |-
         contains(github.event.head_commit.message, 'ABSTRACT') || (github.event_name == 'schedule')
       run: |-
         cd scrape_ash/scrape_ash/
-        mkdir -p data
-        mkdir -p data/doi_json
-        cat gha_settings.py > settings.py
+        echo "CLOSESPIDER_PAGECOUNT = 200" >> settings.py
+        echo "CLOSESPIDER_ITEMCOUNT = 300" >> settings.py
         scrapy crawl abstracts
     - name: Commit scraped files
-      if: |-
-        contains(github.event.head_commit.message, 'ABSTRACT') || (github.event_name == 'schedule')
+      if: steps.scrape.outcome == 'success'
       run: |-
+        echo " " > .gitignore
         cd scrape_ash/scrape_ash/
         cp data/doi_json/*.json ash-files/doi_json/
         cd ash-files
@@ -56,3 +68,13 @@ jobs:
         timestamp=$(date -u)
         git commit --allow-empty  -m "Updated abstract data: ${timestamp}"
         git push
+    - name: Upload to releases
+      if: steps.scrape.outcome == 'success'
+      uses: softprops/action-gh-release@v1
+      with:
+        repository: cbeauhilton/ash-db
+        token: ${{ secrets.PERSONAL_ACCESS_TOKEN_FOR_PUSH }}
+        tag_name: "database"
+        files: |
+          scrape_ash/scrape_ash/urls.db
+          scrape_ash/scrape_ash/abstracts.db
