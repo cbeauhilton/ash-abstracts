@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    uses: cbeauhilton/ash-abstracts/.github/workflows/scraper.yml
+    uses: cbeauhilton/ash-abstracts/.github/workflows/scraper.yml@main
     with:
       scraper: abstracts
       commit_message: ABSTRACT
