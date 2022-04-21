@@ -1,5 +1,4 @@
 from itemadapter import ItemAdapter
-from scrapy.exceptions import DropItem
 
 from sqlite_utils import Database
 import json
@@ -21,18 +20,6 @@ def doi_json_fname(doi_link: str):
     fname = quote_plus(url_path)
     return fname
 
-class AbstractPipeline:
-
-    def process_item(self, item, spider):
-        adapter = ItemAdapter(item)
-
-        if not adapter.get("abstract_text"):
-            raise DropItem(f"{item} is missing the abstract, will not save.")
-
-        else:
-            return item
-
-
 
 class JsonWriterPipeline:
 
@@ -43,7 +30,8 @@ class JsonWriterPipeline:
     def process_item(self, item, spider):
         item_dict = ItemAdapter(item).asdict()
         fname = doi_json_fname(doi_link=item_dict["doi"])
-        with open(f"{self.p}/{fname}.json", "w") as f:
+        json_file = f"{self.p}/{fname}.json"
+        with open(json_file, "w") as f:
             json.dump(item_dict, f, indent=4)
         return item
 
