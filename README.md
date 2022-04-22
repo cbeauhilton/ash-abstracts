@@ -2,7 +2,7 @@
 
 ![2021-09-12-102956_1920x1080_scrot](https://user-images.githubusercontent.com/34774299/132993443-3584de79-69e5-434c-ab5e-bfcc4c43e260.png)
 
-A small sample of abstracts with the topic "leukemia." The [real website](https://ash-abstracts.vercel.app/abstracts/abstracts) is interactive.
+A small sample of abstracts with the topic "leukemia." The [real website](https://ash-abstracts.vercel.app/abstracts_small/abstracts) is interactive.
 
 ---
 
@@ -10,10 +10,10 @@ This repository contains code for scraping the ASH annual meeting abstracts,
 from the first date they were online (2004) to the present, and an initial analysis of this data.
 
 An interactive map of some of the data is available 
-[here](https://ash-abstracts.vercel.app/abstracts/abstracts). 
+[here](https://ash-abstracts.vercel.app/abstracts_small/abstracts). 
 Since there are a large number of examples the map may not load quickly.
 Consider instead exploring a facet of the data, 
-such as [this one](https://ash-abstracts.vercel.app/abstracts/abstracts?_facet_array=topics&topics__arraycontains=leukemia) (screenshot above) for abstracts tagged with "leukemia" (scroll down that page to see the map).
+such as [this one](https://ash-abstracts.vercel.app/abstracts_small/abstracts?_facet_array=topics&topics__arraycontains=leukemia) (screenshot above) for abstracts tagged with "leukemia" (scroll down that page to see the map).
 
 It was inspired by an abstract describing the initial [work](https://doi.org/10.1182/blood-2019-130053) 
 by Andrés Gómez-De León, MD *et al*. 
@@ -50,7 +50,7 @@ for [inspiration](https://youtu.be/Lig2gxPEZPo),
  and [beautiful](https://github.com/simonw/datasette) 
  [software](https://github.com/simonw/sqlite-utils). 
 
-Much thanks [Vercel](https://ash-abstracts.vercel.app/base/abstracts_base) 
+Much thanks [Vercel](https://ash-abstracts.vercel.app/abstracts_small/abstracts) 
 for easy application deployment 
 and [GitHub](https://github.com/) for automation and data storage. 
 I use [Vercel](https://vercel.com/) for data exploration, showing maps, and as a personal API, 
