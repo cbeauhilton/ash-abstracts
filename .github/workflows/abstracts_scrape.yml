@@ -1,0 +1,17 @@
+name: Scrape abstracts
+
+on:
+  push:
+    branches:
+    - main
+  schedule:
+    - cron: '10 */3 * * *'
+
+jobs:
+  build:
+    uses: cbeauhilton/ash-abstracts/.github/workflows/scraper.yml@main
+    with:
+      scraper: abstracts
+      commit_message: ABSTRACT
+    secrets:
+      push_token: ${{ secrets.PERSONAL_ACCESS_TOKEN_FOR_PUSH }}
