@@ -32,12 +32,7 @@ jobs:
     - name: Download database
       run: |-
         curl --fail -OL https://github.com/cbeauhilton/ash-db/releases/download/database/abstracts.db
-    - name: Shrink db for Vercel
-      run: |-
-        sqlite-utils abstracts.db "SELECT doi, article_title, article_date, session_type, topics, author_names, author_affiliations, first_author_latitude, first_author_longitude from abstracts LIMIT 40000" | sqlite-utils insert abstracts_small.db abstracts - --pk=doi
-        sqlite-utils enable-counts abstracts_small.db
-        sqlite-utils enable-fts abstracts_small.db abstracts article_title author_names author_affiliations
-        sqlite-utils optimize abstracts_small.db
+        curl --fail -OL https://github.com/cbeauhilton/ash-db/releases/download/database/abstracts_small.db
     - name: Soundness check
       run: |-
         datasette abstracts_small.db --get / | grep "abstracts"
