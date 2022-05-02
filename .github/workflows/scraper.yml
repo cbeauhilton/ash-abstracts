@@ -3,7 +3,7 @@ name: Scraper
 on:
   workflow_call:
     inputs:
-      scraper: 
+      scraper:
         type: string
         required: true
       commit_message:
@@ -78,7 +78,7 @@ jobs:
         cd scrape_ash/scrape_ash/
         cp data/doi_json/*.json ash-files/doi_json/
         cd ash-files
-        git config --global user.name "${{inputs.scraper}} bot"       
+        git config --global user.name "${{inputs.scraper}} bot"
         git config --global user.email "actions@users.noreply.github.com"
         git add -A
         timestamp=$(date -u)

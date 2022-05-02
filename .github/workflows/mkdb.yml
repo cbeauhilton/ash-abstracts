@@ -51,10 +51,10 @@ jobs:
         sqlite-utils optimize ash-db/abstracts_full.db
     - name: Make smaller db for Vercel
       run: |-
-        sqlite-utils ash-db/abstracts_full.db "SELECT doi, article_title, article_date, session_type, topics, author_names, author_affiliations, first_author_latitude, first_author_longitude from abstracts WHERE is_scraped=1 LIMIT 40000" | sqlite-utils insert ash-db/abstracts.db abstracts - --pk=doi
-        sqlite-utils enable-counts ash-db/abstracts.db
-        sqlite-utils enable-fts ash-db/abstracts.db abstracts article_title author_names author_affiliations
-        sqlite-utils optimize ash-db/abstracts.db
+        sqlite-utils ash-db/abstracts_full.db "SELECT doi, article_title, article_date, session_type, topics, author_names, author_affiliations, first_author_latitude, first_author_longitude from abstracts WHERE is_scraped=1 LIMIT 40000" | sqlite-utils insert ash-db/abstracts_small.db abstracts - --pk=doi
+        sqlite-utils enable-counts ash-db/abstracts_small.db
+        sqlite-utils enable-fts ash-db/abstracts_small.db abstracts article_title author_names author_affiliations
+        sqlite-utils optimize ash-db/abstracts_small.db
     - name: Update readme
       run: |-
         cd ash-db
@@ -64,7 +64,7 @@ jobs:
         echo "Available [here](https://github.com/cbeauhilton/ash-db/releases)." >> README.md
         echo "" >> README.md
         echo "" >> README.md
-        du -h abstracts.db >> README.md
+        du -h abstracts_small.db >> README.md
         echo "" >> README.md
         du -h abstracts_full.db >> README.md
         echo "" >> README.md
@@ -74,11 +74,11 @@ jobs:
         echo "Current number of scraped items in db:" >> README.md
         sqlite-utils abstracts_full.db "SELECT count(*) from abstracts WHERE is_scraped = 1" >> README.md
         cat README.md
-        git config --global user.name "db bot"       
+        git config --global user.name "db bot"
         git config --global user.email "actions@users.noreply.github.com"
         git add README.md
         git commit -m "update: ${timestamp}. "
-        git push 
+        git push
     - name: Upload to releases
       uses: softprops/action-gh-release@v1
       with:
@@ -87,4 +87,4 @@ jobs:
         tag_name: "database"
         files: |
           ash-db/abstracts_full.db
-          ash-db/abstracts.db
+          ash-db/abstracts_small.db
